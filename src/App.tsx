@@ -1,9 +1,11 @@
-import { Button } from "./components/ui/button"
+import { Helmet } from 'react-helmet-async'
+
+import { Button } from './components/ui/button'
 
 function App() {
-
   return (
-    <div className="h-screen flex justify-center items-center">
+    <div className="flex h-screen items-center justify-center">
+      <Helmet title="Home" />
       <Button>Hello World</Button>
     </div>
   )
