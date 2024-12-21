@@ -9,3 +9,15 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
  - [X] eslint configurado
  - [X] Prettier plugin tailwindcss instalado
  - [X] eslint-plugin-simple-import-sort instaldo
+
+## Setup do Projeto
+ - [X] Instalar e configurar [React-Router](https://reactrouter.com/start/library/installation)
+ - [X] Configurar layouts
+ - [X] Instalar e configurar [react-helmet-async](https://github.com/staylor/react-helmet-async)
+
+## Páginas e Componentes(UI)
+ - [ ] Página: Login
+ - [ ] Usando React Hook Form
+ - [ ] Notificações toast (sonner)
+ - [ ] Página: Cadastro de Profissionais
+ - [ ] Layout do app com cabeçalho
