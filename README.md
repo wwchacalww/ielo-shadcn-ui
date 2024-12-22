@@ -16,8 +16,8 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
  - [X] Instalar e configurar [react-helmet-async](https://github.com/staylor/react-helmet-async)
 
 ## Páginas e Componentes(UI)
- - [ ] Página: Login
- - [ ] Usando React Hook Form
- - [ ] Notificações toast (sonner)
+ - [X] Página: Login
+ - [X] Usando React Hook Form
+ - [X] Notificações toast (sonner)
  - [ ] Página: Cadastro de Profissionais
  - [ ] Layout do app com cabeçalho
