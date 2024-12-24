@@ -36,7 +36,7 @@ export function SignIn() {
       }
       if (response.status === 201) {
         const result = await response.json()
-        localStorage.setItem('@ielo-token', result.access_token)
+        localStorage.setItem('@ielo:token', result.access_token)
         toast.success('Login efutado com sucesso.', {
           action: {
             label: 'Reenviar',
