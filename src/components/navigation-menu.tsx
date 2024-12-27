@@ -15,13 +15,13 @@ import { LogoDarkIcon } from './icons/logo-dark'
 const profissional: { title: string; href: string; description: string }[] = [
   {
     title: 'Novo Profissional',
-    href: '/professional/novo',
+    href: '/profissional/novo',
     description:
       'Registre uma nova Terapeuta, Psicopedagoga, Fonaldióloga, enfim um novo professional para clínica.',
   },
   {
     title: 'Lista de Profissionais',
-    href: '/professional/lista',
+    href: '/profissionais',
     description: 'Lista com todos os profissionais do Instituto.',
   },
 ]
