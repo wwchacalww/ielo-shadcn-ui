@@ -19,5 +19,7 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
  - [X] Página: Login
  - [X] Usando React Hook Form
  - [X] Notificações toast (sonner)
- - [ ] Página: Cadastro de Profissionais
- - [ ] Layout do app com cabeçalho
+ - [X] Página: Cadastro de Profissionais
+ - [X] Layout do app com cabeçalho
+ - [X] Lista de Profissionais
+   - [X] Detalhes de cada profissional na tabela
