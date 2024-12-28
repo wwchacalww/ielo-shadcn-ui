@@ -10,8 +10,6 @@ import {
 } from '@/components/ui/navigation-menu'
 import { cn } from '@/lib/utils'
 
-import { LogoDarkIcon } from './icons/logo-dark'
-
 const profissional: { title: string; href: string; description: string }[] = [
   {
     title: 'Novo Profissional',
@@ -40,7 +38,6 @@ export function NavMenu() {
                     className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                     href="/"
                   >
-                    <LogoDarkIcon className="scale-50" />
                     <div className="mb-2 mt-4 text-lg font-medium">
                       Instituto Elo Terapêutico
                     </div>
@@ -73,6 +70,21 @@ export function NavMenu() {
                   {pro.description}
                 </ListItem>
               ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Pacientes</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+              <ListItem title="Novo Paciente" href="/paciente/novo">
+                Registre um novo paciente, não esqueça de preencher todos os
+                dados.
+              </ListItem>
+              <ListItem title="Lista de Pacientes" href="/pacientes">
+                Lista de todos os pacientes
+              </ListItem>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
