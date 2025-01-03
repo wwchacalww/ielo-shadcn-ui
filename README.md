@@ -23,6 +23,10 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
  - [X] Layout do app com cabeçalho
  - [X] Lista de Profissionais
    - [X] Detalhes de cada profissional na tabela
-- [X] Página: Cadastro de pacientes
-- [X] Lista de pacientes
- - [X] Detalhes de cada paciente na tabela
+ - [X] Página: Cadastro de pacientes
+ - [X] Lista de pacientes
+   - [X] Detalhes de cada paciente na tabela
+ - [X] Página: Agendamentos
+ - [X] Cadastro de agendamentos
+ - [X] Lista de agendamentos
+   - [X] Detalhes de cada agendamento na tabela
