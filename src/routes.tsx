@@ -1,31 +1,56 @@
-import { Route, Routes } from 'react-router'
+import { createBrowserRouter } from 'react-router'
 
-import App from './App'
 import { AppLayout } from './pages/_layout/app'
 import { AuthLayout } from './pages/_layout/auth'
+import { NotFound } from './pages/404'
 import { Appointments } from './pages/app/appointments/appointments'
-import { Dashboard } from './pages/app/dashboard'
+import { Dashboard } from './pages/app/dashboard/dashboard'
 import { NewPatient } from './pages/app/patients/new-patient'
 import { Patients } from './pages/app/patients/patients'
 import { NewProfessional } from './pages/app/professionals/new-professional'
 import { Professionals } from './pages/app/professionals/professionals'
 import { SignIn } from './pages/auth/sign-in'
 
-export function AppRoutes() {
-  return (
-    <Routes>
-      <Route element={<AppLayout />}>
-        <Route index element={<App />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profissionais" element={<Professionals />} />
-        <Route path="/profissional/novo" element={<NewProfessional />} />
-        <Route path="/paciente/novo" element={<NewPatient />} />
-        <Route path="/pacientes" element={<Patients />} />
-        <Route path="/agenda" element={<Appointments />} />
-      </Route>
-      <Route path="/sign-in" element={<AuthLayout />}>
-        <Route index element={<SignIn />} />
-      </Route>
-    </Routes>
-  )
-}
+export const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <AppLayout />,
+    errorElement: <NotFound />,
+    children: [
+      {
+        path: '/',
+        element: <Dashboard />,
+      },
+      {
+        path: '/profissionais',
+        element: <Professionals />,
+      },
+      {
+        path: '/profissional/novo',
+        element: <NewProfessional />,
+      },
+      {
+        path: '/paciente/novo',
+        element: <NewPatient />,
+      },
+      {
+        path: '/pacientes',
+        element: <Patients />,
+      },
+      {
+        path: '/agenda',
+        element: <Appointments />,
+      },
+    ],
+  },
+  {
+    path: '/',
+    element: <AuthLayout />,
+    children: [
+      {
+        path: '/sign-in',
+        element: <SignIn />,
+      },
+    ],
+  },
+])

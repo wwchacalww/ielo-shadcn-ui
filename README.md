@@ -30,3 +30,7 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
  - [X] Cadastro de agendamentos
  - [X] Lista de agendamentos
    - [X] Detalhes de cada agendamento na tabela
+ - [X] Página: Dashaboard
+   - [X] Cards com informações sobre agenda e pacientes
+   - [X] Gráfico de agendamentos
+ - [X] Página: 404 não encontrada
