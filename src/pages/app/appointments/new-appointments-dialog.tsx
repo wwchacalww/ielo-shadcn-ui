@@ -1,14 +1,16 @@
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import { set } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { CalendarPlus, Check, ChevronsUpDown } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
 
-import { NewAppointment } from '@/api/new-appointment'
-import { SelectPatients } from '@/api/select-patients'
-import { SelectProfessionals } from '@/api/select-professionals'
+import { newAppointment } from '@/api/new-appointment'
+import { selectPatients } from '@/api/select-patients'
+import { selectProfessionals } from '@/api/select-professionals'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -48,17 +50,17 @@ import { NewAppointmentForm } from './appointment-form'
 
 export function NewAppointmentsDialog() {
   const navigate = useNavigate()
+  const token = localStorage.getItem('@ielo:token')
+  if (!token) {
+    navigate('/sign-in')
+  }
 
   const [appointmentDates, setAppointmentDates] = useState<Date[] | undefined>()
   const [openDialog, setOpenDialog] = useState(false)
   const [openPatients, setOpenPatients] = useState(false)
   const [openProfessionals, setOpenProfessionals] = useState(false)
-  const token = localStorage.getItem('@ielo:token')
-  if (!token) {
-    navigate('/sign-in')
-  }
-  const [patients, setPatients] = useState<SelectPatients[]>([])
-  const [professionals, setProfessionals] = useState<SelectProfessionals[]>([])
+
+  // const [patients, setPatients] = useState<SelectPatients[]>([])
   const [patient, setPatient] = useState<{
     value: string
     label: string
@@ -71,19 +73,29 @@ export function NewAppointmentsDialog() {
   const [local, setLocal] = useState('online')
   const [payment, setPayment] = useState('particular')
 
-  useEffect(() => {
-    const list = async (token: string) => {
-      try {
-        const patientsList = await SelectPatients(token || '')
-        setPatients(patientsList)
-        const professionalsList = await SelectProfessionals(token || '')
-        setProfessionals(professionalsList)
-      } catch (err) {
-        console.log(err)
-      }
+  const { data: professionals, error: professionalsError } = useQuery({
+    queryKey: ['professionals-select'],
+    queryFn: selectProfessionals,
+  })
+
+  const { data: patients, error: patientsError } = useQuery({
+    queryKey: ['patients-select'],
+    queryFn: selectPatients,
+  })
+
+  if (professionalsError && professionalsError instanceof AxiosError) {
+    if (professionalsError.status === 401) {
+      localStorage.removeItem('@ielo:token')
+      navigate('/sign-in')
     }
-    list(token || '')
-  }, [token])
+  }
+
+  if (patientsError && patientsError instanceof AxiosError) {
+    if (patientsError.status === 401) {
+      localStorage.removeItem('@ielo:token')
+      navigate('/sign-in')
+    }
+  }
 
   const {
     register,
@@ -91,6 +103,10 @@ export function NewAppointmentsDialog() {
     formState: { isSubmitting },
     reset,
   } = useForm<NewAppointmentForm>()
+
+  const { mutateAsync: addAppointment } = useMutation({
+    mutationFn: newAppointment,
+  })
 
   async function handleNewAppointment(data: NewAppointmentForm) {
     data.professionalId = professional?.value || ''
@@ -106,19 +122,16 @@ export function NewAppointmentsDialog() {
       const etmm = parseInt(et[1])
       const startTime = set(date, { hours: sthh, minutes: stmm })
       const endTime = set(date, { hours: ethh, minutes: etmm })
-      const result = await NewAppointment(
-        {
-          specialty: 'Psicoterapia',
-          start: startTime.toISOString(),
-          end: endTime.toISOString(),
-          local: data.local,
-          payment: data.payment,
-          value: 0,
-          professionalId: data.professionalId,
-          patientId: data.patientId,
-        },
-        token || '',
-      )
+      const result = await addAppointment({
+        specialty: 'Psicoterapia',
+        start: startTime.toISOString(),
+        end: endTime.toISOString(),
+        local: data.local,
+        payment: data.payment,
+        value: 0,
+        professionalId: data.professionalId,
+        patientId: data.patientId,
+      })
       if (result.status === 201) {
         toast.success('Agendamento realizado com sucesso!')
         setOpenDialog(false)
@@ -166,7 +179,7 @@ export function NewAppointmentsDialog() {
             />
           </div>
           <div className="space-y-2">
-            {patients.length > 0 ? (
+            {patients ? (
               <Popover open={openPatients} onOpenChange={setOpenPatients}>
                 <PopoverTrigger asChild>
                   <Button
@@ -224,57 +237,68 @@ export function NewAppointmentsDialog() {
               {...register('patientId')}
             />
           </div>
+
           <div className="space-y-2">
-            <Popover
-              open={openProfessionals}
-              onOpenChange={setOpenProfessionals}
-            >
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={openProfessionals}
-                  className="w-full justify-between"
-                >
-                  {professional
-                    ? professionals.find((p) => p.label === professional.label)
-                        ?.label
-                    : 'Selecione o profissional'}
-                  <ChevronsUpDown className="opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[450px] p-0">
-                <Command>
-                  <CommandInput placeholder="Pesquise o nome do paciente..." />
-                  <CommandList>
-                    <CommandEmpty>Não encontramos o paciente</CommandEmpty>
-                    <CommandGroup>
-                      {professionals.map((p) => (
-                        <CommandItem
-                          key={p.value}
-                          value={p.label}
-                          onSelect={(currentValue) => {
-                            setProfessional(currentValue === p.value ? null : p)
-                            setProfessional(p)
-                            setOpenProfessionals(false)
-                          }}
-                        >
-                          {p.label}
-                          <Check
-                            className={cn(
-                              'ml-auto',
-                              professional?.value === p.value
-                                ? 'opacity-100'
-                                : 'opacity-0',
-                            )}
-                          />
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
+            {professionals ? (
+              <Popover
+                open={openProfessionals}
+                onOpenChange={setOpenProfessionals}
+              >
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={openPatients}
+                    className="w-full justify-between"
+                  >
+                    {professional
+                      ? professionals.find(
+                          (p) => p.label === professional.label,
+                        )?.label
+                      : 'Selecione o profissional'}
+                    <ChevronsUpDown className="opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[450px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Pesquise o nome do profissional..." />
+                    <CommandList>
+                      <CommandEmpty>
+                        Não encontramos o profissional
+                      </CommandEmpty>
+                      <CommandGroup>
+                        {professionals.map((p) => (
+                          <CommandItem
+                            key={p.value}
+                            value={p.label}
+                            onSelect={(currentValue) => {
+                              setProfessional(
+                                currentValue === p.value ? null : p,
+                              )
+                              setProfessional(p)
+                              setOpenPatients(false)
+                            }}
+                          >
+                            {p.label}
+                            <Check
+                              className={cn(
+                                'ml-auto',
+                                professional?.value === p.value
+                                  ? 'opacity-100'
+                                  : 'opacity-0',
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            ) : (
+              <> </>
+            )}
+
             <Input
               id="professionalId"
               type="hidden"
@@ -282,6 +306,7 @@ export function NewAppointmentsDialog() {
               {...register('professionalId')}
             />
           </div>
+
           <div className="space-y-2">
             <Label htmlFor="appointmentTime">
               Selecione o horário de atendimento

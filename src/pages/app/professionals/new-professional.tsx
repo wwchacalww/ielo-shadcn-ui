@@ -1,26 +1,19 @@
+import { useMutation } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
-import { z, ZodError } from 'zod'
+import { ZodError } from 'zod'
 
+import {
+  createProfessional,
+  NewProfessionalForm,
+  newProfessionalForm,
+} from '@/api/create-professional'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-
-const newProfessionalForm = z.object({
-  name: z.string().min(10, { message: 'Nome muito curto' }),
-  email: z.string().email('E-mail inválido'),
-  birthDate: z.string().date('Data inválida'),
-  cpf: z.string().min(10, { message: 'CPF inválido' }),
-  address: z.string().min(10, { message: 'Endereço muito curto' }),
-  description: z.string(),
-  fone: z.string().min(8, { message: 'Telefone inválido' }),
-  register: z.string(),
-  specialty: z.string().min(3, { message: 'Especialidade muito curta' }),
-})
-
-type NewProfessionalForm = z.infer<typeof newProfessionalForm>
 
 export function NewProfessional() {
   const navigate = useNavigate()
@@ -30,26 +23,29 @@ export function NewProfessional() {
     formState: { isSubmitting },
   } = useForm<NewProfessionalForm>()
 
+  const { mutateAsync: addProfessional } = useMutation({
+    mutationFn: createProfessional,
+  })
+
   async function handleNewProfessional(data: NewProfessionalForm) {
     try {
       newProfessionalForm.parse(data)
-      const token = localStorage.getItem('@ielo:token')
-      const response = await fetch('http://localhost:3333/professionals', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-      })
+      const response = await addProfessional(data)
       if (response.status === 201) {
-        navigate('/dashboard')
+        navigate('/')
       }
     } catch (error) {
       if (error instanceof ZodError) {
         error.errors.forEach((err) => {
           toast.error(err.message)
         })
+      }
+      if (error instanceof AxiosError) {
+        error.response?.data.errors.details.forEach(
+          (err: { message: string }) => {
+            toast.error(err.message)
+          },
+        )
       }
     }
   }
