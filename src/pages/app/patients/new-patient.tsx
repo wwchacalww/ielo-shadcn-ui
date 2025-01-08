@@ -1,29 +1,19 @@
+import { useMutation } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
-import { z, ZodError } from 'zod'
+import { ZodError } from 'zod'
 
+import {
+  createPatient,
+  NewPatientForm,
+  newPatientForm,
+} from '@/api/create-patient'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-
-const newPatientForm = z.object({
-  name: z.string().min(10, { message: 'Nome muito curto' }),
-  email: z.string().email('E-mail inválido'),
-  birthDate: z.string().date('Data inválida'),
-  cpf: z.string().min(10, { message: 'CPF inválido' }),
-  address: z.string().min(10, { message: 'Endereço muito curto' }),
-  fone: z.string().min(8, { message: 'Telefone inválido' }),
-  responsible: z.string().optional(),
-  parent: z.string().optional(),
-  cpfResponsible: z.string().optional(),
-  payment: z.string(),
-})
-
-// 	"payment":"Convênio-INAS"
-
-type NewPatientForm = z.infer<typeof newPatientForm>
 
 export function NewPatient() {
   const navigate = useNavigate()
@@ -33,27 +23,29 @@ export function NewPatient() {
     formState: { isSubmitting },
   } = useForm<NewPatientForm>()
 
+  const { mutateAsync: addPatient } = useMutation({
+    mutationFn: createPatient,
+  })
+
   async function handleNewPatient(data: NewPatientForm) {
     try {
       newPatientForm.parse(data)
-      const token = localStorage.getItem('@ielo:token')
-      const response = await fetch('http://localhost:3333/patients', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-      })
+      const response = await addPatient(data)
       if (response.status === 201) {
-        navigate('/dashboard')
+        navigate('/')
       }
     } catch (error) {
       if (error instanceof ZodError) {
-        console.log(error)
         error.errors.forEach((err) => {
           toast.error(err.message)
         })
+      }
+      if (error instanceof AxiosError) {
+        error.response?.data.errors.details.forEach(
+          (err: { message: string }) => {
+            toast.error(err.message)
+          },
+        )
       }
     }
   }

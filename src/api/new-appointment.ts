@@ -1,3 +1,5 @@
+import { api } from '@/lib/axios'
+
 type NewAppointmentProps = {
   specialty: string
   start: string
@@ -9,20 +11,36 @@ type NewAppointmentProps = {
   patientId: string
 }
 
-export async function NewAppointment(data: NewAppointmentProps, token: string) {
-  try {
-    const response = await fetch('http://localhost:3333/appointments', {
-      method: 'POST',
+export async function newAppointment({
+  specialty,
+  start,
+  end,
+  local,
+  payment,
+  value,
+  professionalId,
+  patientId,
+}: NewAppointmentProps) {
+  const token = localStorage.getItem('@ielo:token')
+  if (!token) {
+    throw new Error('Token não localizado')
+  }
+  return await api.post(
+    '/appointments',
+    {
+      specialty,
+      start,
+      end,
+      local,
+      payment,
+      value,
+      professionalId,
+      patientId,
+    },
+    {
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(data),
-    })
-    return response
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error)
-    throw new Error('Erro ao criar nova consulta')
-  }
+    },
+  )
 }

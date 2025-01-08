@@ -14,6 +14,9 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
  - [X] Instalar e configurar [React-Router](https://reactrouter.com/start/library/installation)
  - [X] Configurar layouts
  - [X] Instalar e configurar [react-helmet-async](https://github.com/staylor/react-helmet-async)
+ - [X] Instalar Axios
+ - [X] Configurar variaveis de ambiente (.env.local)
+ - [X] Instalar e configurar [react-query](https://react-query.tanstack.com/docs/overview)
 
 ## Páginas e Componentes(UI)
  - [X] Página: Login
@@ -21,6 +24,8 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
  - [X] Notificações toast (sonner)
  - [X] Página: Cadastro de Profissionais
  - [X] Layout do app com cabeçalho
+   - [ ] Trocar senha
+   - [X] Logout
  - [X] Lista de Profissionais
    - [X] Detalhes de cada profissional na tabela
  - [X] Página: Cadastro de pacientes
@@ -34,3 +39,11 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
    - [X] Cards com informações sobre agenda e pacientes
    - [X] Gráfico de agendamentos
  - [X] Página: 404 não encontrada
+
+## Instruções
+ - renomear o arquivo .env.example para .env.local
+ - executar o comando: 
+```bash
+npm i
+npm run dev
+```

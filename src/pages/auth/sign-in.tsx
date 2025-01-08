@@ -1,50 +1,35 @@
+import { useMutation } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
-import { z } from 'zod'
+import { ZodError } from 'zod'
 
+import { signIn, SignInForm } from '@/api/sign-in'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-const signInForm = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-})
-
-type SignInForm = z.infer<typeof signInForm>
-
 export function SignIn() {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<SignInForm>()
 
-  async function handleSignIn(data: SignInForm) {
-    try {
-      const response = await fetch('http://localhost:3333/sessions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
+  const { mutateAsync: authenticate } = useMutation({
+    mutationFn: signIn,
+  })
 
-      if (response.status === 401) {
-        toast.error('E-mail ou senha inválidos.')
+  async function handleSignIn({ email, password }: SignInForm) {
+    try {
+      await authenticate({ email, password })
+      navigate('/')
+    } catch (error) {
+      if (error instanceof ZodError) {
+        toast.error(error.errors[0].message)
       }
-      if (response.status === 201) {
-        const result = await response.json()
-        localStorage.setItem('@ielo:token', result.access_token)
-        toast.success('Login efutado com sucesso.', {
-          action: {
-            label: 'Reenviar',
-            onClick: () => handleSignIn(data),
-          },
-        })
-      }
-    } catch {
       toast.error('Não foi possível realizar o login.')
     }
   }
