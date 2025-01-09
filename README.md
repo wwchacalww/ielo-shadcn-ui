@@ -24,7 +24,7 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
  - [X] Notificações toast (sonner)
  - [X] Página: Cadastro de Profissionais
  - [X] Layout do app com cabeçalho
-   - [ ] Trocar senha
+   - [X] Trocar senha
    - [X] Logout
  - [X] Lista de Profissionais
    - [X] Detalhes de cada profissional na tabela
