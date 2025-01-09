@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router'
 
 import { getProfile } from '@/api/get-profile'
 
+import { ChangeMyPasswordDialog } from './change-my-password-dialog'
 import { Button } from './ui/button'
+import { Dialog, DialogTrigger } from './ui/dialog'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,40 +31,46 @@ export function AccountMenu() {
     navigate('/sign-in')
   }
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          className="flex select-none items-center gap-2"
-        >
-          {profile?.name}
-          <ChevronDown className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel className="flex flex-col">
-          <span>{profile?.email}</span>
-          <span className="text-sm font-normal text-muted-foreground">
-            {profile?.Professional && profile?.Professional.length > 0
-              ? profile?.Professional[0].specialty
-              : profile?.role}
-          </span>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
+    <Dialog>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="outline"
+            className="flex select-none items-center gap-2"
+          >
+            {profile?.name}
+            <ChevronDown className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuLabel className="flex flex-col">
+            <span>{profile?.email}</span>
+            <span className="text-sm font-normal text-muted-foreground">
+              {profile?.Professional && profile?.Professional.length > 0
+                ? profile?.Professional[0].specialty
+                : profile?.role}
+            </span>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
-          <RectangleEllipsis className="mr-2 h-4 w-4" />
-          <span>Trocar senha</span>
-        </DropdownMenuItem>
+          <DialogTrigger asChild>
+            <DropdownMenuItem>
+              <RectangleEllipsis className="mr-2 h-4 w-4" />
+              <span>Trocar senha</span>
+            </DropdownMenuItem>
+          </DialogTrigger>
 
-        <DropdownMenuItem
-          className="text-rose-500 dark:text-rose-400"
-          onClick={handleSignOut}
-        >
-          <LogOut className="mr-2 h-4 w-4" />
-          <span>Sair</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+          <DropdownMenuItem
+            className="text-rose-500 dark:text-rose-400"
+            onClick={handleSignOut}
+          >
+            <LogOut className="mr-2 h-4 w-4" />
+            <span>Sair</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <ChangeMyPasswordDialog />
+    </Dialog>
   )
 }
