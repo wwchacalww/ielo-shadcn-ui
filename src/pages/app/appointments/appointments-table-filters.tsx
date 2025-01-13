@@ -1,3 +1,4 @@
+import { getDayOfYear } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Search, X } from 'lucide-react'
 import { useState } from 'react'
@@ -15,9 +16,22 @@ import {
 
 import { NewAppointmentsDialog } from './new-appointments-dialog'
 
-export function AppointmentsTableFilters() {
+export interface AppointmentsTableFiltersProps {
+  onChangeRangeAndDay: (
+    page: number,
+    range: 'dd' | 'wk' | 'mm',
+    value: number,
+  ) => Promise<void> | void
+}
+export function AppointmentsTableFilters({
+  onChangeRangeAndDay,
+}: AppointmentsTableFiltersProps) {
   const [date, setDate] = useState<Date | undefined>(new Date())
 
+  function handleDateChange(date: Date) {
+    setDate(date)
+    onChangeRangeAndDay(1, 'dd', getDayOfYear(date))
+  }
   return (
     <form className="flex flex-col items-center gap-2">
       <div className="flex w-full justify-between">
@@ -56,7 +70,7 @@ export function AppointmentsTableFilters() {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={(dt) => handleDateChange(dt ?? new Date())}
           className="rounded-md"
           locale={ptBR}
         />

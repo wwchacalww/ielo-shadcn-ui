@@ -1,5 +1,9 @@
+import { useQuery } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
+import { useSearchParams } from 'react-router'
+import { z } from 'zod'
 
+import { getProfessionals } from '@/api/get-professionals'
 import {
   Table,
   TableBody,
@@ -13,6 +17,22 @@ import { ProfessionalTableRow } from './professional-table-row'
 import { ProfessionalsTableFilters } from './professionals-table-filters'
 
 export function Professionals() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const page = z.coerce
+    .number()
+    .transform((page) => page ?? 1)
+    .parse(searchParams.get('page') ?? 1)
+  const { data: result } = useQuery({
+    queryKey: ['professionals-list', page],
+    queryFn: () => getProfessionals({ page }),
+  })
+
+  function handlePaginate(page: number) {
+    setSearchParams((prev) => {
+      prev.set('page', page.toString())
+      return prev
+    })
+  }
   return (
     <>
       <Helmet title="Profissionais" />
@@ -34,13 +54,26 @@ export function Professionals() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {Array.from({ length: 10 }).map((_, i) => {
-                  return <ProfessionalTableRow key={i} />
-                })}
+                {result &&
+                  result.professionals.map((professional) => {
+                    return (
+                      <ProfessionalTableRow
+                        key={professional.id}
+                        professional={professional}
+                      />
+                    )
+                  })}
               </TableBody>
             </Table>
           </div>
-          <Pagination pageIndex={0} totalCount={15} perPage={10} />
+          {result && (
+            <Pagination
+              pageIndex={result.meta.page}
+              totalCount={result.meta.totalCount}
+              perPage={result.meta.perPage}
+              onPageChange={handlePaginate}
+            />
+          )}
         </div>
       </div>
     </>

@@ -1,3 +1,5 @@
+import { intlFormat } from 'date-fns'
+
 import {
   DialogContent,
   DialogDescription,
@@ -6,12 +8,26 @@ import {
 } from '@/components/ui/dialog'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 
-export function ProfessionalDetails() {
+import { ProfessionalTableRowProps } from './professional-table-row'
+
+export function ProfessionalDetails({
+  professional,
+}: ProfessionalTableRowProps) {
+  const birthDate = intlFormat(
+    professional.birthDate,
+    {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      // weekday: 'long',
+    },
+    { locale: 'pt-BR' },
+  )
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Hakuna Matata</DialogTitle>
-        <DialogDescription>Terapeuta</DialogDescription>
+        <DialogTitle>{professional.name}</DialogTitle>
+        <DialogDescription>{professional.specialty}</DialogDescription>
       </DialogHeader>
       <div className="space-y-6">
         <Table>
@@ -20,33 +36,37 @@ export function ProfessionalDetails() {
               <TableCell className="text-muted-foreground">
                 Data de nascimento
               </TableCell>
-              <TableCell className="flex justify-end">
-                29 de novembro de 2016
-              </TableCell>
+              <TableCell className="flex justify-end">{birthDate}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">E-mail</TableCell>
               <TableCell className="flex justify-end">
-                hakuna@matata.psi
+                {professional.email}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">CPF</TableCell>
-              <TableCell className="flex justify-end">345.234.123-23</TableCell>
+              <TableCell className="flex justify-end">
+                {professional.cpf}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">Celular</TableCell>
-              <TableCell className="flex justify-end">(55) 5555-5555</TableCell>
+              <TableCell className="flex justify-end">
+                {professional.fone}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">Endereço</TableCell>
               <TableCell className="flex justify-end">
-                Rua do Bobos número 0
+                {professional.address}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">Registro</TableCell>
-              <TableCell className="flex justify-end">CRP-23432</TableCell>
+              <TableCell className="flex justify-end">
+                {professional.register}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>

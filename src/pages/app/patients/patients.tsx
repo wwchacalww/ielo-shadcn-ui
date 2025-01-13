@@ -1,5 +1,9 @@
+import { useQuery } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
+import { useSearchParams } from 'react-router'
+import { z } from 'zod'
 
+import { getPatients } from '@/api/get-patients'
 import {
   Table,
   TableBody,
@@ -13,6 +17,22 @@ import { PatientTableRow } from './patient-table-row'
 import { PatientsTableFilters } from './patients-table-filters'
 
 export function Patients() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const page = z.coerce
+    .number()
+    .transform((page) => page ?? 1)
+    .parse(searchParams.get('page') ?? 1)
+  const { data: result } = useQuery({
+    queryKey: ['patients-list', page],
+    queryFn: () => getPatients({ page }),
+  })
+
+  function handlePaginate(page: number) {
+    setSearchParams((prev) => {
+      prev.set('page', page.toString())
+      return prev
+    })
+  }
   return (
     <>
       <Helmet title="Pacientes" />
@@ -34,13 +54,23 @@ export function Patients() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {Array.from({ length: 10 }).map((_, i) => {
-                  return <PatientTableRow key={i} />
-                })}
+                {result &&
+                  result.patients.map((patient) => {
+                    return (
+                      <PatientTableRow key={patient.id} patient={patient} />
+                    )
+                  })}
               </TableBody>
             </Table>
           </div>
-          <Pagination pageIndex={0} totalCount={15} perPage={10} />
+          {result && (
+            <Pagination
+              pageIndex={result.meta.page}
+              totalCount={result.meta.totalCount}
+              perPage={result.meta.perPage}
+              onPageChange={handlePaginate}
+            />
+          )}
         </div>
       </div>
     </>

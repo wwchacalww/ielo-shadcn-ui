@@ -1,3 +1,5 @@
+import { intlFormat } from 'date-fns'
+
 import {
   DialogContent,
   DialogDescription,
@@ -6,13 +8,91 @@ import {
 } from '@/components/ui/dialog'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 
-export function AppointmentDetails() {
+export interface AppointmentDetailsProps {
+  patient: {
+    id: string
+    name: string
+    email: string | null
+    birthDate: string
+    cpf: string | null
+    status: string
+    fone: string
+    address: string
+    payment: string
+    responsible: string
+    parent: string
+    cpfResponsible: string | null
+    createdAt: Date
+    updatedAt: Date | null
+  }
+  appointment: {
+    id: number
+    specialty: string
+    start: string
+    end: string
+    local: string
+    status: string
+    payment: string
+    value: string
+    professionalId: string
+    patientId: string
+    createdAt: string
+    updatedAt: string
+    professional: {
+      name: string
+    }
+    patient: {
+      name: string
+    }
+  }
+}
+export function AppointmentDetails({
+  appointment,
+  patient,
+}: AppointmentDetailsProps) {
+  const birthDate = intlFormat(
+    patient.birthDate,
+    {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      // weekday: 'long',
+    },
+    { locale: 'pt-BR' },
+  )
+  const appointmentDate = intlFormat(
+    appointment.start,
+    {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long',
+    },
+    { locale: 'pt-BR' },
+  )
+  const start = intlFormat(
+    appointment.start,
+    {
+      hour: 'numeric',
+      minute: 'numeric',
+    },
+    { locale: 'pt-BR' },
+  )
+  const end = intlFormat(
+    appointment.end,
+    {
+      hour: 'numeric',
+      minute: 'numeric',
+    },
+    { locale: 'pt-BR' },
+  )
   return (
-    <DialogContent>
+    // h-['calc(100vh-12rem)'] overflow-y-auto
+    <DialogContent className="h-[calc(100vh-8rem)] overflow-y-auto [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 [&::-webkit-scrollbar-track]:bg-gray-100 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 [&::-webkit-scrollbar]:w-2">
       <DialogHeader>
-        <DialogTitle>Hakuna Matata</DialogTitle>
+        <DialogTitle>{patient.name}</DialogTitle>
         <DialogDescription>
-          Sábado, 8 de dezembro de 2024, das 08:00 às 08:50
+          {appointmentDate}, das {start} às {end}
         </DialogDescription>
       </DialogHeader>
       <div className="space-y-6">
@@ -22,45 +102,51 @@ export function AppointmentDetails() {
               <TableCell className="text-muted-foreground">
                 Data de nascimento
               </TableCell>
-              <TableCell className="flex justify-end">
-                29 de novembro de 2016
-              </TableCell>
+              <TableCell className="flex justify-end">{birthDate}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">CPF</TableCell>
-              <TableCell className="flex justify-end">345.234.123-23</TableCell>
+              <TableCell className="flex justify-end">{patient.cpf}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">Celular</TableCell>
-              <TableCell className="flex justify-end">(55) 5555-5555</TableCell>
+              <TableCell className="flex justify-end">{patient.fone}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">Endereço</TableCell>
               <TableCell className="flex justify-end">
-                Rua do Bobos número 0
+                {patient.address}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">Pagamento</TableCell>
-              <TableCell className="flex justify-end">FUSEX</TableCell>
+              <TableCell className="flex justify-end">
+                {appointment.payment}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">
                 Responsável
               </TableCell>
-              <TableCell className="flex justify-end">O Próprio</TableCell>
+              <TableCell className="flex justify-end">
+                {patient.responsible}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">
                 Parentesco
               </TableCell>
-              <TableCell className="flex justify-end">O Próprio</TableCell>
+              <TableCell className="flex justify-end">
+                {patient.parent}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">
                 CPF do Responsável
               </TableCell>
-              <TableCell className="flex justify-end">345.234.123-23</TableCell>
+              <TableCell className="flex justify-end">
+                {patient.cpfResponsible}
+              </TableCell>
             </TableRow>
 
             <TableRow>
@@ -77,26 +163,32 @@ export function AppointmentDetails() {
               <TableCell className="text-muted-foreground">
                 Profissional
               </TableCell>
-              <TableCell className="flex justify-end">Sigmund Freud</TableCell>
+              <TableCell className="flex justify-end">
+                {appointment.professional.name}
+              </TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell className="text-muted-foreground">
                 Especialidade
               </TableCell>
-              <TableCell className="flex justify-end">Terapeuta</TableCell>
+              <TableCell className="flex justify-end">
+                {appointment.specialty}
+              </TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell className="text-muted-foreground">Horário</TableCell>
               <TableCell className="flex justify-end">
-                Das 08:00 às 08:50
+                Das {start} às {end}
               </TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell className="text-muted-foreground">Local</TableCell>
-              <TableCell className="flex justify-end">Sala 01</TableCell>
+              <TableCell className="flex justify-end">
+                {appointment.local}
+              </TableCell>
             </TableRow>
 
             <TableRow>
@@ -113,7 +205,9 @@ export function AppointmentDetails() {
 
             <TableRow>
               <TableCell className="text-muted-foreground">Pagamento</TableCell>
-              <TableCell className="flex justify-end">FUSEX</TableCell>
+              <TableCell className="flex justify-end">
+                {appointment.payment}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
