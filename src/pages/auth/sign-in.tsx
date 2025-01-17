@@ -24,8 +24,12 @@ export function SignIn() {
 
   async function handleSignIn({ email, password }: SignInForm) {
     try {
-      await authenticate({ email, password })
-      navigate('/')
+      const { role } = await authenticate({ email, password })
+      if (role === 'atendente') {
+        navigate('/')
+      } else {
+        navigate('/profissional/agenda')
+      }
     } catch (error) {
       if (error instanceof ZodError) {
         toast.error(error.errors[0].message)

@@ -1,5 +1,15 @@
 import { api } from '@/lib/axios'
 
+type AppointmentStatus =
+  | 'agendado'
+  | 'reagendado'
+  | 'em consulta'
+  | 'cancelado'
+  | 'faltou'
+  | 'aguardando evolução'
+  | 'aguardando responsável técnico'
+  | 'finalizado'
+
 export interface GetAppointmentsQuery {
   value?: number | null
   range?: string | null
@@ -15,7 +25,7 @@ export interface GetAppointmentsResponse {
     start: string
     end: string
     local: string
-    status: string
+    status: AppointmentStatus
     payment: string
     value: string
     professionalId: string

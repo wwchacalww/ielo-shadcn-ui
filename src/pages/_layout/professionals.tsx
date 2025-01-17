@@ -10,12 +10,16 @@ interface PayLoad {
   exp: number
 }
 
-export function AppLayout() {
+export function AppProfessionalLayout() {
   const token = localStorage.getItem('@ielo:token')
   if (!token) {
     return <Navigate to="/sign-in" replace />
   }
   const { exp, role } = jwtDecode<PayLoad>(token)
+  if (role !== 'profissional') {
+    localStorage.removeItem('@ielo:token')
+    return <Navigate to="/sign-in" replace />
+  }
   const check = Number(exp) * 1000 > new Date().getTime()
   if (check) {
     return (

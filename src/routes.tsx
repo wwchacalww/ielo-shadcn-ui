@@ -2,8 +2,10 @@ import { createBrowserRouter } from 'react-router'
 
 import { AppLayout } from './pages/_layout/app'
 import { AuthLayout } from './pages/_layout/auth'
+import { AppProfessionalLayout } from './pages/_layout/professionals'
 import { NotFound } from './pages/404'
 import { Appointments } from './pages/app/appointments/appointments'
+import { ProfessionalAppointments } from './pages/app/appointments/professional/appointments'
 import { Dashboard } from './pages/app/dashboard/dashboard'
 import { NewPatient } from './pages/app/patients/new-patient'
 import { Patients } from './pages/app/patients/patients'
@@ -40,6 +42,17 @@ export const router = createBrowserRouter([
       {
         path: '/agenda',
         element: <Appointments />,
+      },
+    ],
+  },
+  {
+    path: '/',
+    element: <AppProfessionalLayout />,
+    errorElement: <NotFound />,
+    children: [
+      {
+        path: '/profissional/agenda',
+        element: <ProfessionalAppointments />,
       },
     ],
   },
