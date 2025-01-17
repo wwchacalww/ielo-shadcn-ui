@@ -1,8 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
+import { jwtDecode } from 'jwt-decode'
 import { ChevronDown, LogOut, RectangleEllipsis } from 'lucide-react'
 import { useNavigate } from 'react-router'
 
 import { getProfile } from '@/api/get-profile'
+import { PayLoad } from '@/api/sign-in'
 
 import { ChangeMyPasswordDialog } from './change-my-password-dialog'
 import { Button } from './ui/button'
@@ -17,9 +19,12 @@ import {
 } from './ui/dropdown-menu'
 
 export function AccountMenu() {
+  const token = localStorage.getItem('@ielo:token')
+  const { sub } = jwtDecode<PayLoad>(token ?? '')
+
   const navigate = useNavigate()
   const { data: profile, error: profileError } = useQuery({
-    queryKey: ['profile'],
+    queryKey: ['profile', sub],
     queryFn: getProfile,
   })
   if (profileError) {

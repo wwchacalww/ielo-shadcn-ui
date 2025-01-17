@@ -6,7 +6,7 @@ import { ModeToggle } from './theme/mode-toggle'
 import { useTheme } from './theme/theme-provider'
 import { Separator } from './ui/separator'
 
-export function Header() {
+export function Header({ role = 'professional' }) {
   const { theme } = useTheme()
 
   return (
@@ -30,7 +30,7 @@ export function Header() {
             Profissionais
           </NavLink>
         </nav> */}
-        <NavMenu />
+        {role === 'atendente' && <NavMenu />}
 
         <div className="ml-auto flex items-center gap-2">
           <ModeToggle />

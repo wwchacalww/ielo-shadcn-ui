@@ -32,7 +32,7 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
  - [X] Página: Cadastro de pacientes
  - [X] Lista de pacientes
    - [X] Detalhes de cada paciente na tabela
-   - [ ] Paginação
+   - [X] Paginação
  - [X] Página: Agendamentos
  - [X] Cadastro de agendamentos
  - [X] Lista de agendamentos
@@ -43,6 +43,13 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
    - [X] Cards com informações sobre agenda e pacientes
    - [X] Gráfico de agendamentos
  - [X] Página: 404 não encontrada
+  
+## A Fazer
+ - [ ] Botão de reagendar na lista de agendamentos
+ - [ ] Layout só dos profissionais 
+   - [ ] troca status do próprio atendimento
+   - [ ] lançar evolução
+   - [ ] lançar relatório
 
 ## Instruções
  - renomear o arquivo .env.example para .env.local

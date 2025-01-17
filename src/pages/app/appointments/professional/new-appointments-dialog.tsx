@@ -2,15 +2,17 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { set } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { jwtDecode } from 'jwt-decode'
 import { CalendarPlus, Check, ChevronsUpDown } from 'lucide-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
 
+import { getProfile } from '@/api/get-profile'
 import { newAppointment } from '@/api/new-appointment'
 import { selectPatients } from '@/api/select-patients'
-import { selectProfessionals } from '@/api/select-professionals'
+import { PayLoad } from '@/api/sign-in'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -44,9 +46,10 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
+import { queryClient } from '@/lib/react-query'
 import { cn } from '@/lib/utils'
 
-import { NewAppointmentForm } from './appointment-form'
+import { NewAppointmentForm } from '../appointment-form'
 
 export function NewAppointmentsDialog() {
   const navigate = useNavigate()
@@ -54,41 +57,36 @@ export function NewAppointmentsDialog() {
   if (!token) {
     navigate('/sign-in')
   }
+  const { sub } = jwtDecode<PayLoad>(token ?? '')
 
   const [appointmentDates, setAppointmentDates] = useState<Date[] | undefined>()
   const [openDialog, setOpenDialog] = useState(false)
   const [openPatients, setOpenPatients] = useState(false)
-  const [openProfessionals, setOpenProfessionals] = useState(false)
 
-  // const [patients, setPatients] = useState<SelectPatients[]>([])
   const [patient, setPatient] = useState<{
     value: string
     label: string
   } | null>()
 
-  const [professional, setProfessional] = useState<{
-    value: string
-    label: string
-  } | null>()
   const [local, setLocal] = useState('online')
   const [payment, setPayment] = useState('particular')
 
-  const { data: professionals, error: professionalsError } = useQuery({
-    queryKey: ['professionals-select'],
-    queryFn: selectProfessionals,
+  const { data: professional, error: professionalError } = useQuery({
+    queryKey: ['profile', sub],
+    queryFn: getProfile,
   })
-
-  const { data: patients, error: patientsError } = useQuery({
-    queryKey: ['patients-select'],
-    queryFn: selectPatients,
-  })
-
-  if (professionalsError && professionalsError instanceof AxiosError) {
-    if (professionalsError.status === 401) {
+  if (professionalError && professionalError instanceof AxiosError) {
+    if (professionalError.status === 401) {
       localStorage.removeItem('@ielo:token')
       navigate('/sign-in')
     }
   }
+
+  const pro = professional?.Professional[0]
+  const { data: patients, error: patientsError } = useQuery({
+    queryKey: ['patients-select'],
+    queryFn: selectPatients,
+  })
 
   if (patientsError && patientsError instanceof AxiosError) {
     if (patientsError.status === 401) {
@@ -106,10 +104,15 @@ export function NewAppointmentsDialog() {
 
   const { mutateAsync: addAppointment } = useMutation({
     mutationFn: newAppointment,
+    onSuccess: () => {
+      return queryClient.invalidateQueries({
+        queryKey: ['appointments'],
+      })
+    },
   })
 
   async function handleNewAppointment(data: NewAppointmentForm) {
-    data.professionalId = professional?.value || ''
+    data.professionalId = pro?.id || ''
     data.patientId = patient?.value || ''
     data.local = local
     data.payment = payment
@@ -123,7 +126,7 @@ export function NewAppointmentsDialog() {
       const startTime = set(date, { hours: sthh, minutes: stmm })
       const endTime = set(date, { hours: ethh, minutes: etmm })
       const result = await addAppointment({
-        specialty: 'Psicoterapia',
+        specialty: pro?.specialty || '',
         start: startTime.toISOString(),
         end: endTime.toISOString(),
         local: data.local,
@@ -137,7 +140,6 @@ export function NewAppointmentsDialog() {
         setOpenDialog(false)
         reset()
         setPatient(null)
-        setProfessional(null)
         setAppointmentDates(undefined)
       } else {
         toast.error('Erro ao realizar o agendamento!')
@@ -235,75 +237,6 @@ export function NewAppointmentsDialog() {
               type="hidden"
               value={patient?.value || ''}
               {...register('patientId')}
-            />
-          </div>
-
-          <div className="space-y-2">
-            {professionals ? (
-              <Popover
-                open={openProfessionals}
-                onOpenChange={setOpenProfessionals}
-              >
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={openPatients}
-                    className="w-full justify-between"
-                  >
-                    {professional
-                      ? professionals.find(
-                          (p) => p.label === professional.label,
-                        )?.label
-                      : 'Selecione o profissional'}
-                    <ChevronsUpDown className="opacity-50" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[450px] p-0">
-                  <Command>
-                    <CommandInput placeholder="Pesquise o nome do profissional..." />
-                    <CommandList>
-                      <CommandEmpty>
-                        Não encontramos o profissional
-                      </CommandEmpty>
-                      <CommandGroup>
-                        {professionals.map((p) => (
-                          <CommandItem
-                            key={p.value}
-                            value={p.label}
-                            onSelect={(currentValue) => {
-                              setProfessional(
-                                currentValue === p.value ? null : p,
-                              )
-                              setProfessional(p)
-                              setOpenPatients(false)
-                            }}
-                          >
-                            {p.label}
-                            <Check
-                              className={cn(
-                                'ml-auto',
-                                professional?.value === p.value
-                                  ? 'opacity-100'
-                                  : 'opacity-0',
-                              )}
-                            />
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-            ) : (
-              <> </>
-            )}
-
-            <Input
-              id="professionalId"
-              type="hidden"
-              value={professional?.value || ''}
-              {...register('professionalId')}
             />
           </div>
 

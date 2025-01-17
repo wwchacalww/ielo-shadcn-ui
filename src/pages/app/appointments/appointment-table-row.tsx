@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { intlFormat } from 'date-fns'
-import { CalendarSearch, Search, X } from 'lucide-react'
+import { CalendarSearch, Search } from 'lucide-react'
 
 import { getPatient } from '@/api/get-patient'
 import { Button } from '@/components/ui/button'
@@ -8,7 +8,18 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
 
 import { AppointmentDetails } from './appointment-details'
+import { AppointmentStatus } from './appointment-status'
+import { CancelAppointmentDialog } from './apppoinment-cancel-dialog'
 
+type AppointmentStatus =
+  | 'agendado'
+  | 'reagendado'
+  | 'em consulta'
+  | 'cancelado'
+  | 'faltou'
+  | 'aguardando evolução'
+  | 'aguardando responsável técnico'
+  | 'finalizado'
 export interface AppointmentTableRowProps {
   appointment: {
     id: number
@@ -16,7 +27,7 @@ export interface AppointmentTableRowProps {
     start: string
     end: string
     local: string
-    status: string
+    status: AppointmentStatus
     payment: string
     value: string
     professionalId: string
@@ -64,6 +75,8 @@ export function AppointmentTableRow({ appointment }: AppointmentTableRowProps) {
     queryFn: () => getPatient({ patientId: appointment.patientId }),
   })
 
+  const { status } = appointment
+
   return (
     <TableRow>
       <TableCell>
@@ -92,24 +105,20 @@ export function AppointmentTableRow({ appointment }: AppointmentTableRowProps) {
       <TableCell>{appointment.patient.name}</TableCell>
       <TableCell>{appointment.local}</TableCell>
       <TableCell>
-        <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-orange-500" />
-          <span className="font-medium text-muted-foreground">
-            {appointment.status}
-          </span>
-        </div>
+        <AppointmentStatus status={status} />
       </TableCell>
       <TableCell>
-        <Button variant="outline" size="xs">
-          <CalendarSearch className="mr-2 h-3 w-3" />
-          Reagendar
-        </Button>
+        {status === 'agendado' && (
+          <Button variant="outline" size="xs">
+            <CalendarSearch className="mr-2 h-3 w-3" />
+            Reagendar
+          </Button>
+        )}
       </TableCell>
       <TableCell>
-        <Button variant="ghost" size="xs">
-          <X className="mr-2 h-3 w-3" />
-          Cancelar
-        </Button>
+        {status === 'agendado' && (
+          <CancelAppointmentDialog id={appointment.id} />
+        )}
       </TableCell>
     </TableRow>
   )
