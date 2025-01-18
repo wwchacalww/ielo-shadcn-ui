@@ -47,7 +47,7 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
 ## A Fazer
  - [ ] Botão de reagendar na lista de agendamentos
  - [ ] Layout só dos profissionais 
-   - [ ] troca status do próprio atendimento
+   - [X] troca status do próprio atendimento
    - [ ] lançar evolução
    - [ ] lançar relatório
 

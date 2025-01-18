@@ -10,6 +10,7 @@ import { TableCell, TableRow } from '@/components/ui/table'
 import { AppointmentDetails } from './appointment-details'
 import { AppointmentStatus } from './appointment-status'
 import { CancelAppointmentDialog } from './apppoinment-cancel-dialog'
+import { ChangeStatusAppoiment } from './professional/change-status-appointment'
 
 type AppointmentStatus =
   | 'agendado'
@@ -75,7 +76,7 @@ export function AppointmentTableRow({ appointment }: AppointmentTableRowProps) {
     queryFn: () => getPatient({ patientId: appointment.patientId }),
   })
 
-  const { status } = appointment
+  const { status, id } = appointment
 
   return (
     <TableRow>
@@ -105,7 +106,17 @@ export function AppointmentTableRow({ appointment }: AppointmentTableRowProps) {
       <TableCell>{appointment.patient.name}</TableCell>
       <TableCell>{appointment.local}</TableCell>
       <TableCell>
-        <AppointmentStatus status={status} />
+        {[
+          'cancelado',
+          'faltou',
+          'aguardando responsável técnico',
+          'aguardando evolução',
+          'finalizado',
+        ].includes(status) ? (
+          <AppointmentStatus status={status} />
+        ) : (
+          <ChangeStatusAppoiment status={status} id={id} />
+        )}
       </TableCell>
       <TableCell>
         {status === 'agendado' && (
