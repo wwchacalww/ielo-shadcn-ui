@@ -120,27 +120,33 @@ export function NewAppointmentsDialog() {
       const stmm = parseInt(st[1])
       const ethh = parseInt(et[0])
       const etmm = parseInt(et[1])
-      const startTime = set(date, { hours: sthh, minutes: stmm })
+      const startTime = set(date, { hours: sthh, minutes: stmm, seconds: 1 })
       const endTime = set(date, { hours: ethh, minutes: etmm })
-      const result = await addAppointment({
-        specialty: 'Psicoterapia',
-        start: startTime.toISOString(),
-        end: endTime.toISOString(),
-        local: data.local,
-        payment: data.payment,
-        value: 0,
-        professionalId: data.professionalId,
-        patientId: data.patientId,
-      })
-      if (result.status === 201) {
-        toast.success('Agendamento realizado com sucesso!')
-        setOpenDialog(false)
-        reset()
-        setPatient(null)
-        setProfessional(null)
-        setAppointmentDates(undefined)
+      if (endTime > startTime) {
+        const result = await addAppointment({
+          specialty: 'Psicoterapia',
+          start: startTime.toISOString(),
+          end: endTime.toISOString(),
+          local: data.local,
+          payment: data.payment,
+          value: 0,
+          professionalId: data.professionalId,
+          patientId: data.patientId,
+        })
+        if (result.status === 201) {
+          toast.success('Agendamento realizado com sucesso!')
+          setOpenDialog(false)
+          reset()
+          setPatient(null)
+          setProfessional(null)
+          setAppointmentDates(undefined)
+        } else {
+          toast.error('Erro ao realizar o agendamento!')
+        }
       } else {
-        toast.error('Erro ao realizar o agendamento!')
+        toast.error(
+          'O primeiro horário marcado deve ser antes do último horário selecionado.',
+        )
       }
     })
   }

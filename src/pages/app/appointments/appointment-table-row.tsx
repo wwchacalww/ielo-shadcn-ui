@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { intlFormat } from 'date-fns'
-import { CalendarSearch, Search } from 'lucide-react'
+import { Search } from 'lucide-react'
 
 import { getPatient } from '@/api/get-patient'
 import { Button } from '@/components/ui/button'
@@ -11,6 +11,7 @@ import { AppointmentDetails } from './appointment-details'
 import { AppointmentStatus } from './appointment-status'
 import { CancelAppointmentDialog } from './apppoinment-cancel-dialog'
 import { ChangeStatusAppoiment } from './professional/change-status-appointment'
+import { ReSchedule } from './re-schecule-dialog'
 
 type AppointmentStatus =
   | 'agendado'
@@ -119,15 +120,16 @@ export function AppointmentTableRow({ appointment }: AppointmentTableRowProps) {
         )}
       </TableCell>
       <TableCell>
-        {status === 'agendado' && (
-          <Button variant="outline" size="xs">
-            <CalendarSearch className="mr-2 h-3 w-3" />
-            Reagendar
-          </Button>
+        {['agendado', 'reagendado'].includes(status) && (
+          <ReSchedule
+            id={id}
+            appointmentDate={appointment.start}
+            patientName={appointment.patient.name}
+          />
         )}
       </TableCell>
       <TableCell>
-        {status === 'agendado' && (
+        {['agendado', 'reagendado'].includes(status) && (
           <CancelAppointmentDialog id={appointment.id} />
         )}
       </TableCell>
