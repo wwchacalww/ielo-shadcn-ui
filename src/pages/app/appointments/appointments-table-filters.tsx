@@ -32,6 +32,10 @@ export function AppointmentsTableFilters({
     setDate(date)
     onChangeRangeAndDay(1, 'dd', getDayOfYear(date))
   }
+  function handleClearFilters() {
+    const mm = new Date().getMonth() + 1
+    onChangeRangeAndDay(1, 'mm', mm)
+  }
   return (
     <form className="flex flex-col items-center gap-2">
       <div className="flex w-full justify-between">
@@ -58,7 +62,12 @@ export function AppointmentsTableFilters({
               <Search className="mr-2 h-4 w-4" />
               Filtrar resultados
             </Button>
-            <Button type="button" variant="outline" size="xs">
+            <Button
+              type="button"
+              onClick={handleClearFilters}
+              variant="outline"
+              size="xs"
+            >
               <X className="mr-2 h-4 w-4" />
               Remover filtros
             </Button>

@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
+import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
@@ -11,11 +12,13 @@ import {
   NewPatientForm,
   newPatientForm,
 } from '@/api/create-patient'
+import { SelectPayment } from '@/components/select-payment'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 export function NewPatient() {
+  const [payment, setPayment] = useState('Particular')
   const navigate = useNavigate()
   const {
     register,
@@ -29,6 +32,7 @@ export function NewPatient() {
 
   async function handleNewPatient(data: NewPatientForm) {
     try {
+      data.payment = payment
       newPatientForm.parse(data)
       const response = await addPatient(data)
       if (response.status === 201) {
@@ -120,7 +124,7 @@ export function NewPatient() {
 
             <div className="space-y-2">
               <Label htmlFor="payment">Pagamento</Label>
-              <Input id="payment" type="text" {...register('payment')} />
+              <SelectPayment setPayment={setPayment} />
             </div>
 
             <Button disabled={isSubmitting} className="w-full" type="submit">
