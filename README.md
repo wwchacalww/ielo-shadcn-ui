@@ -46,9 +46,18 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
   
 ## A Fazer
  - [X] Botão de reagendar na lista de agendamentos
+ - [ ] Criar um contexto de autentição compartilhando informações
+   - [ ] Usuário
+   - [ ] Profissional
+   - [ ] Supervisor Técnico
  - [ ] Layout só dos profissionais 
    - [X] troca status do próprio atendimento
    - [ ] lançar evolução
+     - [X] Página de lançamento da evolução
+     - [ ] Api de criação de evolução
+     - [ ] Api de consulta de evolução
+     - [ ] Api de consulta de atendiemto
+     - [ ] Api de evolução em pdf
    - [ ] lançar relatório
 
 ## Instruções

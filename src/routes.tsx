@@ -11,6 +11,7 @@ import { NewPatient } from './pages/app/patients/new-patient'
 import { Patients } from './pages/app/patients/patients'
 import { NewProfessional } from './pages/app/professionals/new-professional'
 import { Professionals } from './pages/app/professionals/professionals'
+import { NewProgress } from './pages/app/progress/new-progress'
 import { SignIn } from './pages/auth/sign-in'
 
 export const router = createBrowserRouter([
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
       {
         path: '/profissional/agenda',
         element: <ProfessionalAppointments />,
+      },
+      {
+        path: '/profissional/progress/:appointmentId',
+        element: <NewProgress />,
       },
     ],
   },
