@@ -12,20 +12,6 @@ import { Textarea } from '@/components/ui/textarea'
 import { ProgressHeader } from './components/header'
 import { PatientProfessionalData } from './components/patient-professional-data'
 
-// interface ProgressProps {
-//   appointmentId: string
-//   patientName: string
-//   patientBirthDay: string
-//   patientPhone: string
-//   payment: string
-//   professionalId: string
-//   professionalName: string
-//   professionalRegister: string
-//   supervisorId: string
-//   supervisorName: string
-//   supervisorRegister: string
-// }
-
 export function NewProgress() {
   const navigate = useNavigate()
   let birthDate: string = ''

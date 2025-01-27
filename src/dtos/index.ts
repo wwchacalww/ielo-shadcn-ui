@@ -25,7 +25,7 @@ type PatientProps = {
   updatedAt: string
 }
 
-type ProfessionalProps = {
+export type ProfessionalProps = {
   id: string
   name: string
   birthDate: string
@@ -36,10 +36,10 @@ type ProfessionalProps = {
   register: string
   specialty: string
   description: string
-  status: boolean
-  userId: string
+  status?: boolean
+  userId?: string
   createdAt: string
-  updatedAt: string
+  updatedAt?: string
 }
 
 export interface GetAppointmentByIdResponse {
