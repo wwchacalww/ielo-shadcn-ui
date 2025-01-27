@@ -17,12 +17,11 @@ interface ProfessionalResponse {
   updatedAt: Date | null
 }
 
-interface GetProfileResponse {
+export interface GetProfileResponse {
   profile: {
     id: string
     name: string
     email: string
-    password: string
     role: string
     status: boolean
     Professional: ProfessionalResponse[]
