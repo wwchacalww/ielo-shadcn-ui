@@ -13,6 +13,7 @@ import { getProfile } from '@/api/get-profile'
 import { newAppointment } from '@/api/new-appointment'
 import { selectPatients } from '@/api/select-patients'
 import { PayLoad } from '@/api/sign-in'
+import { SelectPayment } from '@/components/select-payment'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -276,18 +277,7 @@ export function NewAppointmentsDialog() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="payment">Meio de pagamento</Label>
-            <Select defaultValue="all" onValueChange={setPayment}>
-              <SelectTrigger className="h-8 w-[240px]">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="particular">Particular</SelectItem>
-                <SelectItem value="inass">INASS-GDF Saúde</SelectItem>
-                <SelectItem value="fusex">FUSEX</SelectItem>
-                <SelectItem value="amil">Amil</SelectItem>
-                <SelectItem value="cbm-df">CBM-DF</SelectItem>
-              </SelectContent>
-            </Select>
+            <SelectPayment setPayment={setPayment} />
           </div>
           <Separator />
           <Button

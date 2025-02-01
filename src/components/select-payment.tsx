@@ -14,6 +14,7 @@ interface SelectPaymentProps {
 export function SelectPayment({ setPayment }: SelectPaymentProps) {
   const payments = env.VITE_PAYMENTS_LIST
   const listPayments = payments.split(';')
+  listPayments.sort((a, b) => a.localeCompare(b))
   return (
     <Select defaultValue="all" onValueChange={setPayment}>
       <SelectTrigger className="h-8 w-[240px]">
