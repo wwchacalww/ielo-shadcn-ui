@@ -1,6 +1,7 @@
 import { AccountMenu } from './account-menu'
 import { LogoDarkIcon } from './icons/logo-dark'
 import { LogoLightIcon } from './icons/logo-light'
+import { NavMenuProfessional } from './nav-menu-professional'
 import { NavMenu } from './navigation-menu'
 import { ModeToggle } from './theme/mode-toggle'
 import { useTheme } from './theme/theme-provider'
@@ -31,6 +32,7 @@ export function Header({ role = 'professional' }) {
           </NavLink>
         </nav> */}
         {role === 'atendente' && <NavMenu />}
+        {role === 'profissional' && <NavMenuProfessional />}
 
         <div className="ml-auto flex items-center gap-2">
           <ModeToggle />
