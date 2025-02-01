@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { intlFormat } from 'date-fns'
-import { Search } from 'lucide-react'
+import { FileInput, FilePenLine, FilePlus2, Search } from 'lucide-react'
+import { Link } from 'react-router'
 
 import { getPatient } from '@/api/get-patient'
 import { Button } from '@/components/ui/button'
@@ -34,6 +35,7 @@ export interface AppointmentTableRowProps {
     value: string
     professionalId: string
     patientId: string
+    progressId?: string | null
     createdAt: string
     updatedAt: string
     professional: {
@@ -77,7 +79,7 @@ export function AppointmentTableRow({ appointment }: AppointmentTableRowProps) {
     queryFn: () => getPatient({ patientId: appointment.patientId }),
   })
 
-  const { status, id } = appointment
+  const { status, id, progressId } = appointment
 
   return (
     <TableRow>
@@ -127,10 +129,40 @@ export function AppointmentTableRow({ appointment }: AppointmentTableRowProps) {
             patientName={appointment.patient.name}
           />
         )}
+        {progressId && status === 'aguardando evolução' ? (
+          <Button variant="destructive" size="xs" asChild>
+            <Link
+              to={`/profissional/progress/edit/${appointment.id}?id=${progressId}`}
+            >
+              <FilePenLine className="mr-2 h-3 w-3" />
+              Evolução
+            </Link>
+          </Button>
+        ) : (
+          ''
+        )}
+        {!progressId && status === 'aguardando evolução' ? (
+          <Button variant="outline" size="xs" asChild>
+            <Link to={`/profissional/progress/${appointment.id}`}>
+              <FilePlus2 className="mr-2 h-3 w-3" />
+              Evolução
+            </Link>
+          </Button>
+        ) : (
+          ''
+        )}
       </TableCell>
       <TableCell>
         {['agendado', 'reagendado'].includes(status) && (
           <CancelAppointmentDialog id={appointment.id} />
+        )}
+        {progressId && status === 'aguardando evolução' ? (
+          <Button variant="success" size="xs">
+            <FileInput className="mr-2 h-3 w-3" />
+            Enviar
+          </Button>
+        ) : (
+          ''
         )}
       </TableCell>
     </TableRow>

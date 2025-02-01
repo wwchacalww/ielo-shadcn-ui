@@ -11,6 +11,7 @@ import { NewPatient } from './pages/app/patients/new-patient'
 import { Patients } from './pages/app/patients/patients'
 import { NewProfessional } from './pages/app/professionals/new-professional'
 import { Professionals } from './pages/app/professionals/professionals'
+import { EditProgress } from './pages/app/progress/edit-progress'
 import { NewProgress } from './pages/app/progress/new-progress'
 import { SignIn } from './pages/auth/sign-in'
 
@@ -58,6 +59,10 @@ export const router = createBrowserRouter([
       {
         path: '/profissional/progress/:appointmentId',
         element: <NewProgress />,
+      },
+      {
+        path: '/profissional/progress/edit/:appointmentId',
+        element: <EditProgress />,
       },
     ],
   },

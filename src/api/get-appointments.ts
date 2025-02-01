@@ -30,6 +30,7 @@ export interface GetAppointmentsResponse {
     value: string
     professionalId: string
     patientId: string
+    progressId?: string | null
     createdAt: string
     updatedAt: string
     professional: {
