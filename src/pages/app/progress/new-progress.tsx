@@ -139,7 +139,7 @@ export function NewProgress() {
               <Textarea
                 className="mt-2 bg-white text-black"
                 rows={4}
-                value={result?.progress.progressData.majorComplaint}
+                defaultValue={result?.progress.progressData.majorComplaint}
                 {...register('majorComplaint')}
               />
             </div>
@@ -149,7 +149,7 @@ export function NewProgress() {
               </h2>
               <Textarea
                 className="mt-2 bg-white text-black"
-                value={result?.progress.progressData.procedures}
+                defaultValue={result?.progress.progressData.procedures}
                 {...register('procedures')}
                 rows={4}
               />

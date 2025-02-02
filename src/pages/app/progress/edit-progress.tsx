@@ -110,7 +110,7 @@ export function EditProgress() {
             <Textarea
               className="mt-2 bg-white text-black"
               rows={4}
-              value={progress?.progressData.majorComplaint}
+              defaultValue={progress?.progressData.majorComplaint}
             />
           </div>
           <div className="mt-2 flex flex-col rounded-md border-2 p-2">
@@ -120,7 +120,7 @@ export function EditProgress() {
             <Textarea
               className="mt-2 bg-white text-black"
               rows={4}
-              value={progress?.progressData.procedures}
+              defaultValue={progress?.progressData.procedures}
             />
           </div>
 
@@ -141,7 +141,7 @@ export function EditProgress() {
                         key={p.appointmentDate}
                         className="mt-2 bg-white text-black"
                         rows={4}
-                        value={p.text}
+                        defaultValue={p.text}
                       />
                     </>
                   )
