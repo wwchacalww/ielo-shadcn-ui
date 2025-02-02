@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
+import { FilterByMonth } from './components/FilterByMonth'
 import { NewAppointmentsDialog } from './new-appointments-dialog'
 
 export interface AppointmentsTableFiltersProps {
@@ -62,6 +63,7 @@ export function AppointmentsTableFilters({
               <Search className="mr-2 h-4 w-4" />
               Filtrar resultados
             </Button>
+            <FilterByMonth />
             <Button
               type="button"
               onClick={handleClearFilters}

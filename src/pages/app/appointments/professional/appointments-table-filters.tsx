@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Input } from '@/components/ui/input'
 
+import { FilterByMonth } from '../components/FilterByMonth'
 import { NewAppointmentsDialog } from './new-appointments-dialog'
 
 export interface AppointmentsTableFiltersProps {
@@ -26,8 +27,10 @@ export function AppointmentsTableFilters({
     onChangeRangeAndDay(1, 'dd', getDayOfYear(dt))
   }
 
-  function handleClearFilters() {
-    const mm = new Date().getMonth() + 1
+  function handleClearFilters(mm?: number) {
+    if (!mm) {
+      mm = new Date().getMonth() + 1
+    }
     onChangeRangeAndDay(1, 'mm', mm)
   }
   return (
@@ -44,9 +47,12 @@ export function AppointmentsTableFilters({
               <Search className="mr-2 h-4 w-4" />
               Filtrar resultados
             </Button>
+
+            <FilterByMonth />
+
             <Button
               type="button"
-              onClick={handleClearFilters}
+              onClick={() => handleClearFilters()}
               variant="outline"
               size="xs"
             >
