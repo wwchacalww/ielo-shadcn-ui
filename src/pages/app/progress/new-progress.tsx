@@ -56,6 +56,13 @@ export function NewProgress() {
     navigate('/profissional/agenda')
   }
 
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+    setValue,
+  } = useForm<NewProgressForm>()
+
   if (!isLoading && result) {
     birthDate = intlFormat(
       result.progress.patient.birthDate,
@@ -79,14 +86,9 @@ export function NewProgress() {
       },
       { locale: 'pt-BR' },
     )
+    setValue('majorComplaint', result.progress.progressData.majorComplaint)
+    setValue('procedures', result.progress.progressData.procedures)
   }
-
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<NewProgressForm>()
-
   async function handleNewProgress(data: NewProgressForm) {
     const body: NewProgressBody = {
       status: 'rascunho',
@@ -139,7 +141,6 @@ export function NewProgress() {
               <Textarea
                 className="mt-2 bg-white text-black"
                 rows={4}
-                defaultValue={result?.progress.progressData.majorComplaint}
                 {...register('majorComplaint')}
               />
             </div>
@@ -149,7 +150,6 @@ export function NewProgress() {
               </h2>
               <Textarea
                 className="mt-2 bg-white text-black"
-                defaultValue={result?.progress.progressData.procedures}
                 {...register('procedures')}
                 rows={4}
               />
