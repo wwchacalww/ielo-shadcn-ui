@@ -3,7 +3,7 @@ import { intlFormat } from 'date-fns'
 import { FileInput, FilePenLine, FilePlus2, Search } from 'lucide-react'
 import { Link } from 'react-router'
 
-import { getPatient } from '@/api/get-patient'
+import { getPatient } from '@/api/patient/get-patient'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'

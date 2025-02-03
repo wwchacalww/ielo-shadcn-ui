@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { X } from 'lucide-react'
 import { toast } from 'sonner'
 
-import { cancelAppointment } from '@/api/cancel-appointment'
+import { cancelAppointment } from '@/api/appointments/cancel-appointment'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

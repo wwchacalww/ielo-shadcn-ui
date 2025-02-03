@@ -4,7 +4,7 @@ import { toast } from 'sonner'
 import {
   changeStatusAppointment,
   ChangeStatusAppointmentBody,
-} from '@/api/change-status-appointment'
+} from '@/api/appointments/change-status-appointment'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,

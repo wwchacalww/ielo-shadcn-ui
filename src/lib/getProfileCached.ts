@@ -1,7 +1,7 @@
 import { jwtDecode } from 'jwt-decode'
 
-import { GetProfessionalsResponse } from '@/api/get-professionals'
-import { PayLoad } from '@/api/sign-in'
+import { GetProfessionalsResponse } from '@/api/professional/get-professionals'
+import { PayLoad } from '@/api/account/sign-in'
 
 import { queryClient } from './react-query'
 

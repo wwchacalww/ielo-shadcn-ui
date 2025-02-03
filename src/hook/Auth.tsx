@@ -1,8 +1,8 @@
 import { jwtDecode } from 'jwt-decode'
 import { createContext, ReactNode, useContext, useState } from 'react'
 
-import { getProfile } from '@/api/get-profile'
-import { PayLoad, signIn as Authenticate } from '@/api/sign-in'
+import { getProfile } from '@/api/account/get-profile'
+import { PayLoad, signIn as Authenticate } from '@/api/account/sign-in'
 import { ProfessionalProps } from '@/dtos'
 
 interface User {

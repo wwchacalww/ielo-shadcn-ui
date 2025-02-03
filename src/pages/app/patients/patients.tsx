@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { useSearchParams } from 'react-router'
 import { z } from 'zod'
 
-import { getPatients } from '@/api/get-patients'
+import { getPatients } from '@/api/patient/get-patients'
 import {
   Table,
   TableBody,

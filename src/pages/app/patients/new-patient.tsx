@@ -11,7 +11,7 @@ import {
   createPatient,
   NewPatientForm,
   newPatientForm,
-} from '@/api/create-patient'
+} from '@/api/patient/create-patient'
 import { SelectPayment } from '@/components/select-payment'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'

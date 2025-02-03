@@ -1,6 +1,6 @@
 import { api } from '@/lib/axios'
 
-import { ProfessionalListProps } from './dto'
+import { ProfessionalListProps } from '../dto'
 
 export type SelectProfessionals = {
   value: string

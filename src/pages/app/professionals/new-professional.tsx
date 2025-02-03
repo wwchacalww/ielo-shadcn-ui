@@ -10,7 +10,7 @@ import {
   createProfessional,
   NewProfessionalForm,
   newProfessionalForm,
-} from '@/api/create-professional'
+} from '@/api/professional/create-professional'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'

@@ -1,6 +1,6 @@
 import { api } from '@/lib/axios'
 
-import { PatientListProps } from './dto'
+import { PatientListProps } from '../dto'
 
 export type SelectPatients = {
   value: string

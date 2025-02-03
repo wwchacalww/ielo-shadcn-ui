@@ -3,8 +3,8 @@ import { jwtDecode } from 'jwt-decode'
 import { ChevronDown, LogOut, RectangleEllipsis } from 'lucide-react'
 import { useNavigate } from 'react-router'
 
-import { getProfile } from '@/api/get-profile'
-import { PayLoad } from '@/api/sign-in'
+import { getProfile } from '@/api/account/get-profile'
+import { PayLoad } from '@/api/account/sign-in'
 
 import { ChangeMyPasswordDialog } from './change-my-password-dialog'
 import { Button } from './ui/button'

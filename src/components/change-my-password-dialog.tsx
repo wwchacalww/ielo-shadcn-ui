@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { changeMyPassword } from '@/api/change-my-password'
+import { changeMyPassword } from '@/api/account/change-my-password'
 
 import { Button } from './ui/button'
 import {
