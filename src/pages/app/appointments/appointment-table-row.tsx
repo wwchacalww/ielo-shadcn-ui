@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { intlFormat } from 'date-fns'
-import { FileInput, FilePenLine, FilePlus2, Search } from 'lucide-react'
+import { FilePenLine, FilePlus2, Search } from 'lucide-react'
 import { Link } from 'react-router'
 
 import { getPatient } from '@/api/patient/get-patient'
@@ -12,6 +12,7 @@ import { AppointmentDetails } from './appointment-details'
 import { AppointmentStatus } from './appointment-status'
 import { CancelAppointmentDialog } from './apppoinment-cancel-dialog'
 import { ChangeStatusAppoiment } from './professional/change-status-appointment'
+import { ChangeStatusProgressDialog } from './professional/change-statuts-progress-dialog'
 import { ReSchedule } from './re-schecule-dialog'
 
 type AppointmentStatus =
@@ -51,7 +52,6 @@ export function AppointmentTableRow({ appointment }: AppointmentTableRowProps) {
   const appointmentDate = intlFormat(
     appointment.start,
     {
-      year: 'numeric',
       month: 'long',
       day: 'numeric',
       weekday: 'long',
@@ -157,10 +157,7 @@ export function AppointmentTableRow({ appointment }: AppointmentTableRowProps) {
           <CancelAppointmentDialog id={appointment.id} />
         )}
         {progressId && status === 'aguardando evolução' ? (
-          <Button variant="success" size="xs">
-            <FileInput className="mr-2 h-3 w-3" />
-            Enviar
-          </Button>
+          <ChangeStatusProgressDialog id={progressId} />
         ) : (
           ''
         )}

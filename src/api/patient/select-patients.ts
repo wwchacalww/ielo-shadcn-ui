@@ -1,6 +1,6 @@
 import { api } from '@/lib/axios'
 
-import { PatientListProps } from '../dto'
+import { PatientProps } from '../dto'
 
 export type SelectPatients = {
   value: string
@@ -12,14 +12,14 @@ export async function selectPatients(): Promise<SelectPatients[]> {
     throw new Error('Token não localizado')
   }
 
-  const response = await api.get<PatientListProps>('/patients', {
+  const response = await api.get<PatientProps[]>('/patients/all', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
 
   const data = response.data
-  const result = data.patients.map((patient) => {
+  const result = data.map((patient) => {
     return {
       value: patient.id,
       label: patient.name,
