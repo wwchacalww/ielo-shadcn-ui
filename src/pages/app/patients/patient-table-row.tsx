@@ -1,4 +1,5 @@
-import { Search } from 'lucide-react'
+import { Edit, Search } from 'lucide-react'
+import { Link } from 'react-router'
 
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
@@ -28,7 +29,7 @@ export interface PatientTableRowProps {
 export function PatientTableRow({ patient }: PatientTableRowProps) {
   return (
     <TableRow>
-      <TableCell>
+      <TableCell className="flex gap-1">
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="outline" size="xs">
@@ -38,6 +39,12 @@ export function PatientTableRow({ patient }: PatientTableRowProps) {
           </DialogTrigger>
           <PatientDetails patient={patient} />
         </Dialog>
+        <Link to={`/paciente/${patient.id}`}>
+          <Button variant="outline" size="xs">
+            <Edit className="h-3 w-3" />
+            <span className="sr-only">Detalhes do paciente</span>
+          </Button>
+        </Link>
       </TableCell>
       <TableCell className="font-medium">{patient.name}</TableCell>
       <TableCell>{patient.email}</TableCell>

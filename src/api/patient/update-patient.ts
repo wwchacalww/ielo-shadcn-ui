@@ -15,7 +15,8 @@ interface UpdatePatientBody {
   status?: string | null
 }
 
-export async function UpdatePatientBody(data: UpdatePatientBody) {
+export async function updatePatient(data: UpdatePatientBody) {
+  console.log(data)
   const token = localStorage.getItem('@ielo:token')
   if (!token) {
     throw new Error('Token não localizado')

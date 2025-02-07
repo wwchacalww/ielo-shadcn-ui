@@ -7,6 +7,7 @@ import { NotFound } from './pages/404'
 import { Appointments } from './pages/app/appointments/appointments'
 import { ProfessionalAppointments } from './pages/app/appointments/professional/appointments'
 import { Dashboard } from './pages/app/dashboard/dashboard'
+import { EditPatient } from './pages/app/patients/edit-patient'
 import { NewPatient } from './pages/app/patients/new-patient'
 import { Patients } from './pages/app/patients/patients'
 import { NewProfessional } from './pages/app/professionals/new-professional'
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
       {
         path: '/pacientes',
         element: <Patients />,
+      },
+      {
+        path: '/paciente/:patientId',
+        element: <EditPatient />,
       },
       {
         path: '/agenda',
