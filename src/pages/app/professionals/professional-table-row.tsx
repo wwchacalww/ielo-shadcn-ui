@@ -1,4 +1,5 @@
-import { Search } from 'lucide-react'
+import { Edit, Search } from 'lucide-react'
+import { Link } from 'react-router'
 
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
@@ -30,7 +31,7 @@ export function ProfessionalTableRow({
 }: ProfessionalTableRowProps) {
   return (
     <TableRow>
-      <TableCell>
+      <TableCell className="flex gap-1">
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="outline" size="xs">
@@ -38,6 +39,12 @@ export function ProfessionalTableRow({
               <span className="sr-only">Detalhes do profissional</span>
             </Button>
           </DialogTrigger>
+          <Link to={`/profissional/${professional.id}`}>
+            <Button variant="outline" size="xs">
+              <Edit className="h-3 w-3" />
+              <span className="sr-only">Detalhes do paciente</span>
+            </Button>
+          </Link>
           <ProfessionalDetails professional={professional} />
         </Dialog>
       </TableCell>

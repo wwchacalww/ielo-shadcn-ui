@@ -10,6 +10,7 @@ import { Dashboard } from './pages/app/dashboard/dashboard'
 import { EditPatient } from './pages/app/patients/edit-patient'
 import { NewPatient } from './pages/app/patients/new-patient'
 import { Patients } from './pages/app/patients/patients'
+import { EditProfessional } from './pages/app/professionals/edit-professional'
 import { NewProfessional } from './pages/app/professionals/new-professional'
 import { Professionals } from './pages/app/professionals/professionals'
 import { EditProgress } from './pages/app/progress/edit-progress'
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
       {
         path: '/profissional/novo',
         element: <NewProfessional />,
+      },
+      {
+        path: '/profissional/:professionalId',
+        element: <EditProfessional />,
       },
       {
         path: '/paciente/novo',

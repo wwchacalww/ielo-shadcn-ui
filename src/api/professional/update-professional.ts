@@ -1,6 +1,6 @@
 import { api } from '@/lib/axios'
 
-interface UpdatePatientBody {
+interface UpdateProfessionalBody {
   id: string
   name?: string | null
   birhDate?: string | null
@@ -8,19 +8,18 @@ interface UpdatePatientBody {
   cpf?: string | null
   fone?: string | null
   address?: string | null
-  payment?: string | null
-  responsible?: string | null
-  parent?: string | null
-  cpfResponsible?: string | null
-  status?: string | null
+  description?: string | null
+  birthDate?: string | null
+  register?: string | null
+  specialty?: string | null
 }
 
-export async function updatePatient(data: UpdatePatientBody) {
+export async function updateProfessional(data: UpdateProfessionalBody) {
   const token = localStorage.getItem('@ielo:token')
   if (!token) {
     throw new Error('Token não localizado')
   }
-  return await api.put('/patient/', data, {
+  return await api.put('/professional', data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

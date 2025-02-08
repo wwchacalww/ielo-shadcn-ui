@@ -29,7 +29,9 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
  - [X] Lista de Profissionais
    - [X] Detalhes de cada profissional na tabela
    - [X] Paginação
+ - [X] Edição de dados do profissional 
  - [X] Página: Cadastro de pacientes
+ - [X] Edição de dados do paciente
  - [X] Lista de pacientes
    - [X] Detalhes de cada paciente na tabela
    - [X] Paginação
@@ -43,9 +45,9 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
    - [X] Cards com informações sobre agenda e pacientes
    - [X] Gráfico de agendamentos
  - [X] Página: 404 não encontrada
- - [ ] Página: Progress
-   - [ ] Registro de evolução dos atendimentos
-   - [ ] Edição dos registros de evolução dos atendimentos
+ - [X] Página: Progress
+   - [X] Registro de evolução dos atendimentos
+   - [X] Edição dos registros de evolução dos atendimentos
   
 ## A Fazer
  - [X] Botão de reagendar na lista de agendamentos
