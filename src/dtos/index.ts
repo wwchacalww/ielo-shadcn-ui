@@ -101,7 +101,6 @@ export interface NewProgressBody {
   status: string
   patientId: string
   professionalId: string
-  supervisorId: string
   appointmentId: number
   majorComplaint: string
   procedures: string

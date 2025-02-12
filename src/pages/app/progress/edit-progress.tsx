@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
 import { NewProgressBody, progressTextProps } from '@/dtos'
+import { env } from '@/env'
 import { isoDateToFormatedDate } from '@/lib/isoDateToFormatedDate'
 
 import { ProgressHeader } from './components/header'
@@ -106,7 +107,6 @@ export function EditProgress() {
       appointmentId: appId,
       patientId: progress?.patientId ?? '',
       professionalId: progress?.professionalId ?? '',
-      supervisorId: progress?.professionalId ?? '',
       ...data,
     }
     await saveProgress(body)
@@ -149,8 +149,8 @@ export function EditProgress() {
                 paymentMethod={progress.patient.payment}
                 psychologistName={progress.professional.name}
                 psychologistRegister={progress.professional.register}
-                supervisorName={progress.supervisor.name}
-                supervisorRegister={progress.supervisor.register}
+                supervisorName={env.VITE_SUPERVISOR_NAME}
+                supervisorRegister={env.VITE_SUPERVISOR_REGISTER}
               />
             )}
 

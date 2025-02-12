@@ -4,7 +4,6 @@ interface RegisterProgressBody {
   status: string
   patientId: string
   professionalId: string
-  supervisorId: string
   appointmentId: number
   majorComplaint: string
   procedures: string
@@ -16,7 +15,6 @@ export async function registerProgress({
   status,
   patientId,
   professionalId,
-  supervisorId,
   appointmentId,
   majorComplaint,
   procedures,
@@ -33,7 +31,6 @@ export async function registerProgress({
       status,
       patientId,
       professionalId,
-      supervisorId,
       appointmentId,
       majorComplaint,
       procedures,

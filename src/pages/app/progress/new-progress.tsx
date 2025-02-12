@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
 import { NewProgressBody } from '@/dtos'
+import { env } from '@/env'
 import { isoDateToFormatedDate } from '@/lib/isoDateToFormatedDate'
 
 import { ProgressHeader } from './components/header'
@@ -96,7 +97,6 @@ export function NewProgress() {
       appointmentId: appId,
       patientId: result?.appointment.patientId ?? '',
       professionalId: result?.appointment.professionalId ?? '',
-      supervisorId: result?.appointment.professionalId ?? '',
       ...data,
     }
     await saveProgress(body)
@@ -126,8 +126,8 @@ export function NewProgress() {
                 paymentMethod={result.appointment.payment}
                 psychologistName={result.appointment.professional.name}
                 psychologistRegister={result.appointment.professional.register}
-                supervisorName={result.progress.supervisor.name}
-                supervisorRegister={result.progress.supervisor.register}
+                supervisorName={env.VITE_SUPERVISOR_NAME}
+                supervisorRegister={env.VITE_SUPERVISOR_REGISTER}
               />
             )}
 
