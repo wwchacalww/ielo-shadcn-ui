@@ -8,6 +8,7 @@ import { z } from 'zod'
 
 import { getAppointmentById } from '@/api/appointments/get-appointment-by-id'
 import { getProgressById } from '@/api/progress/get-progress-by-id'
+import { pdfProgress } from '@/api/progress/pdf-progress'
 import { registerProgress } from '@/api/progress/register-progress'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -111,6 +112,12 @@ export function EditProgress() {
     await saveProgress(body)
   }
 
+  async function handleDownloadPDF() {
+    const blob = await pdfProgress({ id: progressId })
+    const url = window.URL.createObjectURL(blob)
+    window.open(url, '_blank')
+  }
+
   return (
     <>
       <Helmet title="Evolução" />
@@ -121,6 +128,13 @@ export function EditProgress() {
           </h1>
           <p className="text-sm text-muted-foreground">
             Preencha todos os campos para o registro de atendimento do paciente.
+            <Button
+              onClick={handleDownloadPDF}
+              variant="outline"
+              className="w-[200px]"
+            >
+              Baixar PDF
+            </Button>
           </p>
         </div>
         <form onSubmit={handleSubmit(handleEditProgress)} className="space-y-4">
@@ -171,38 +185,28 @@ export function EditProgress() {
                 progress.progressData.progress.map((p) => {
                   if (p.appointmentDate === appointment?.appointment.start) {
                     return (
-                      <>
-                        <span
-                          key={p.appointmentDate}
-                          className="text-right text-sm font-semibold text-black"
-                        >
+                      <div key={p.appointmentDate}>
+                        <span className="text-right text-sm font-semibold text-black">
                           {isoDateToFormatedDate(p.appointmentDate)}
                         </span>
                         <Textarea
-                          key={p.appointmentDate}
                           className="mt-2 bg-white text-black"
                           {...register('progress')}
                           rows={4}
                           defaultValue={p.text}
                         />
-                      </>
+                      </div>
                     )
                   }
                   return (
-                    <>
-                      <span
-                        key={p.appointmentDate}
-                        className="mt-1 text-right text-sm font-semibold text-black"
-                      >
+                    <div key={p.appointmentDate}>
+                      <span className="mt-1 text-right text-sm font-semibold text-black">
                         {isoDateToFormatedDate(p.appointmentDate)}
                       </span>
-                      <span
-                        key={p.appointmentDate}
-                        className="font-regular text-sm text-black"
-                      >
+                      <span className="font-regular text-sm text-black">
                         {p.text}
                       </span>
-                    </>
+                    </div>
                   )
                 })
               ) : (

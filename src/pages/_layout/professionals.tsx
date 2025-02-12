@@ -16,7 +16,7 @@ export function AppProfessionalLayout() {
     return <Navigate to="/sign-in" replace />
   }
   const { exp, role } = jwtDecode<PayLoad>(token)
-  if (role !== 'profissional') {
+  if (!['profissional', 'supervisora'].includes(role)) {
     localStorage.removeItem('@ielo:token')
     return <Navigate to="/sign-in" replace />
   }

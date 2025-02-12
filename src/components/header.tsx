@@ -31,7 +31,7 @@ export function Header({ role = 'professional' }) {
             Profissionais
           </NavLink>
         </nav> */}
-        {role === 'atendente' && <NavMenu />}
+        {['atendente', 'admin', 'supervisora'].includes(role) && <NavMenu />}
         {role === 'profissional' && <NavMenuProfessional />}
 
         <div className="ml-auto flex items-center gap-2">

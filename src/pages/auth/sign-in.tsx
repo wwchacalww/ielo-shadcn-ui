@@ -25,7 +25,7 @@ export function SignIn() {
   async function handleSignIn({ email, password }: SignInForm) {
     try {
       const { role } = await authenticate({ email, password })
-      if (role === 'atendente') {
+      if (['atendente', 'admin', 'supervisora'].includes(role)) {
         navigate('/')
       } else {
         navigate('/profissional/agenda')

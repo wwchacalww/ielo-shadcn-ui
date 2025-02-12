@@ -48,6 +48,7 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
  - [X] Página: Progress
    - [X] Registro de evolução dos atendimentos
    - [X] Edição dos registros de evolução dos atendimentos
+   - [ ] Impressão da evolução em pdf
   
 ## A Fazer
  - [X] Botão de reagendar na lista de agendamentos
@@ -58,7 +59,10 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
      - [X] Api de criação de evolução
      - [X] Api de consulta de evolução
      - [X] Api de consulta de atendiemto
-     - [ ] Api de evolução em pdf
+     - [X] Api de evolução em pdf
+     - [X] Visualizar evolução em pdf
+     - [X] Enviar para a supervisora
+     - [ ] Aprovação da evolução
    - [ ] lançar relatório
 
 ## Instruções

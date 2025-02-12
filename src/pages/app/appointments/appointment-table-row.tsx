@@ -7,10 +7,12 @@ import { getPatient } from '@/api/patient/get-patient'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
+import { getProfileCached, ProfileProps } from '@/lib/getProfileCached'
 
 import { AppointmentDetails } from './appointment-details'
 import { AppointmentStatus } from './appointment-status'
 import { CancelAppointmentDialog } from './apppoinment-cancel-dialog'
+import { PrintProgress } from './components/PrintProgress'
 import { ChangeStatusAppoiment } from './professional/change-status-appointment'
 import { ChangeStatusProgressDialog } from './professional/change-statuts-progress-dialog'
 import { ReSchedule } from './re-schecule-dialog'
@@ -49,6 +51,10 @@ export interface AppointmentTableRowProps {
 }
 
 export function AppointmentTableRow({ appointment }: AppointmentTableRowProps) {
+  const profile = getProfileCached() as ProfileProps
+  const { role, Professional: pro } = profile
+  const [profissional] = pro
+
   const appointmentDate = intlFormat(
     appointment.start,
     {
@@ -121,45 +127,103 @@ export function AppointmentTableRow({ appointment }: AppointmentTableRowProps) {
           <ChangeStatusAppoiment status={status} id={id} />
         )}
       </TableCell>
-      <TableCell>
-        {['agendado', 'reagendado'].includes(status) && (
-          <ReSchedule
-            id={id}
-            appointmentDate={appointment.start}
-            patientName={appointment.patient.name}
-          />
-        )}
-        {progressId && status === 'aguardando evolução' ? (
-          <Button variant="destructive" size="xs" asChild>
-            <Link
-              to={`/profissional/progress/edit/${appointment.id}?id=${progressId}`}
-            >
-              <FilePenLine className="mr-2 h-3 w-3" />
-              Evolução
-            </Link>
-          </Button>
-        ) : (
-          ''
-        )}
-        {!progressId && status === 'aguardando evolução' ? (
-          <Button variant="outline" size="xs" asChild>
-            <Link to={`/profissional/progress/${appointment.id}`}>
-              <FilePlus2 className="mr-2 h-3 w-3" />
-              Evolução
-            </Link>
-          </Button>
-        ) : (
-          ''
-        )}
-      </TableCell>
+
+      {role === 'atendente' && (
+        <TableCell>
+          {['agendado', 'reagendado'].includes(status) && (
+            <ReSchedule
+              id={id}
+              appointmentDate={appointment.start}
+              patientName={appointment.patient.name}
+            />
+          )}
+        </TableCell>
+      )}
+      {role === 'profissional' && (
+        <TableCell>
+          {['agendado', 'reagendado'].includes(status) && (
+            <ReSchedule
+              id={id}
+              appointmentDate={appointment.start}
+              patientName={appointment.patient.name}
+            />
+          )}
+          {progressId && status === 'aguardando evolução' ? (
+            <Button variant="destructive" size="xs" asChild>
+              <Link
+                to={`/profissional/progress/edit/${appointment.id}?id=${progressId}`}
+              >
+                <FilePenLine className="mr-2 h-3 w-3" />
+                Evolução
+              </Link>
+            </Button>
+          ) : (
+            ''
+          )}
+          {!progressId && status === 'aguardando evolução' ? (
+            <Button variant="outline" size="xs" asChild>
+              <Link to={`/profissional/progress/${appointment.id}`}>
+                <FilePlus2 className="mr-2 h-3 w-3" />
+                Evolução
+              </Link>
+            </Button>
+          ) : (
+            ''
+          )}
+        </TableCell>
+      )}
+      {progressId &&
+      role === 'supervisora' &&
+      status === 'aguardando responsável técnico' ? (
+        <TableCell>
+          <PrintProgress id={progressId} />
+        </TableCell>
+      ) : (
+        ''
+      )}
+      {role === 'supervisora' &&
+      appointment.professionalId === profissional.id ? (
+        <TableCell>
+          {['agendado', 'reagendado'].includes(status) && (
+            <ReSchedule
+              id={id}
+              appointmentDate={appointment.start}
+              patientName={appointment.patient.name}
+            />
+          )}
+          {progressId && status === 'aguardando evolução' ? (
+            <Button variant="destructive" size="xs" asChild>
+              <Link
+                to={`/profissional/progress/edit/${appointment.id}?id=${progressId}`}
+              >
+                <FilePenLine className="mr-2 h-3 w-3" />
+                Evolução
+              </Link>
+            </Button>
+          ) : (
+            ''
+          )}
+          {!progressId && status === 'aguardando evolução' ? (
+            <Button variant="outline" size="xs" asChild>
+              <Link to={`/profissional/progress/${appointment.id}`}>
+                <FilePlus2 className="mr-2 h-3 w-3" />
+                Evolução
+              </Link>
+            </Button>
+          ) : (
+            ''
+          )}
+        </TableCell>
+      ) : (
+        <TableCell></TableCell>
+      )}
+
       <TableCell>
         {['agendado', 'reagendado'].includes(status) && (
           <CancelAppointmentDialog id={appointment.id} />
         )}
-        {progressId && status === 'aguardando evolução' ? (
+        {progressId && status === 'aguardando evolução' && (
           <ChangeStatusProgressDialog id={progressId} />
-        ) : (
-          ''
         )}
       </TableCell>
     </TableRow>
