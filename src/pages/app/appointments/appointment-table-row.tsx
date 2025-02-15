@@ -89,6 +89,67 @@ export function AppointmentTableRow({ appointment }: AppointmentTableRowProps) {
 
   const { status, id, progressId } = appointment
 
+  if (role === 'atendente') {
+    return (
+      <TableRow>
+        <TableCell>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="xs">
+                <Search className="h-3 w-3" />
+                <span className="sr-only">Detalhes do agendamento</span>
+              </Button>
+            </DialogTrigger>
+            {patient && (
+              <AppointmentDetails
+                appointment={appointment}
+                patient={patient.patient}
+              />
+            )}
+          </Dialog>
+        </TableCell>
+        <TableCell className="font-medium">
+          {appointment.professional.name}
+        </TableCell>
+        <TableCell>{appointmentDate}</TableCell>
+        <TableCell>
+          {start} às {end}
+        </TableCell>
+        <TableCell>{appointment.patient.name}</TableCell>
+        <TableCell>{appointment.local}</TableCell>
+        <TableCell>
+          {[
+            'cancelado',
+            'faltou',
+            'aguardando responsável técnico',
+            'aguardando evolução',
+            'finalizado',
+          ].includes(status) ? (
+            <AppointmentStatus status={status} />
+          ) : (
+            <ChangeStatusAppoiment status={status} id={id} />
+          )}
+        </TableCell>
+        <TableCell className="flex items-center justify-center">
+          {['atendente', 'supervisora', 'profissional'].includes(role) &&
+            ['agendado', 'reagendado'].includes(status) && (
+              <ReSchedule
+                id={id}
+                appointmentDate={appointment.start}
+                patientName={appointment.patient.name}
+              />
+            )}
+        </TableCell>
+
+        <TableCell>
+          {['agendado', 'reagendado'].includes(status) && (
+            <CancelAppointmentDialog id={appointment.id} />
+          )}
+        </TableCell>
+      </TableRow>
+    )
+  }
+
   return (
     <TableRow>
       <TableCell>
