@@ -249,6 +249,11 @@ export function AppointmentTableRow({ appointment }: AppointmentTableRowProps) {
           )}
         {progressId &&
           role === 'supervisora' &&
+          status === 'aguardando evolução' && (
+            <ChangeStatusProgressDialog id={progressId} />
+          )}
+        {progressId &&
+          role === 'supervisora' &&
           status === 'aguardando responsável técnico' && (
             <EvaluateProgressDialog id={progressId} />
           )}
