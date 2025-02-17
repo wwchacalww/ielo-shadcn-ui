@@ -46,6 +46,9 @@ export function ChangeStatusAppoiment({
           {['aguardando evolução', 'aguardando responsável técnico'].includes(
             status,
           ) && <span className="h-2 w-2 rounded-full bg-yellow-500" />}
+          {['cancelado', 'faltou'].includes(status) && (
+            <span className="h-2 w-2 rounded-full bg-red-500" />
+          )}
           {status}
         </Button>
       </DropdownMenuTrigger>

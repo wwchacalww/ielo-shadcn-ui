@@ -179,8 +179,6 @@ export function AppointmentTableRow({ appointment }: AppointmentTableRowProps) {
       <TableCell>{appointment.local}</TableCell>
       <TableCell>
         {[
-          'cancelado',
-          'faltou',
           'aguardando responsável técnico',
           'aguardando evolução',
           'finalizado',
