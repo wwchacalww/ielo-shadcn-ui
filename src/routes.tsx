@@ -5,7 +5,8 @@ import { AuthLayout } from './pages/_layout/auth'
 import { AppProfessionalLayout } from './pages/_layout/professionals'
 import { NotFound } from './pages/404'
 import { Appointments } from './pages/app/appointments/appointments'
-import { ProfessionalAppointments } from './pages/app/appointments/professional/appointments'
+// import { ProfessionalAppointments } from './pages/app/appointments/professional/appointments'
+import { AppointmentsFiltered } from './pages/app/appointments/professional/data-table-filter/page'
 import { Dashboard } from './pages/app/dashboard/dashboard'
 import { EditPatient } from './pages/app/patients/edit-patient'
 import { NewPatient } from './pages/app/patients/new-patient'
@@ -64,7 +65,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/profissional/agenda',
-        element: <ProfessionalAppointments />,
+        element: <AppointmentsFiltered />,
       },
       {
         path: '/profissional/progress/:appointmentId',
