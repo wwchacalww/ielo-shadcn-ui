@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Input } from '@/components/ui/input'
 
-import { FilterByMonth } from '../../components/FilterByMonth'
+import { FilterByMonth } from '../FilterByMonth'
 import { NewAppointmentsDialog } from '../../professional/new-appointments-dialog'
 import { statuses } from './data/data'
 import { DataTableFacetedFilter } from './data-table-faceted-filter'

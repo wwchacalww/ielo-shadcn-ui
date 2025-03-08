@@ -5,13 +5,16 @@ import { useSearchParams } from 'react-router'
 import { z } from 'zod'
 
 import { getProfile } from '@/api/account/get-profile'
-import { getAppointmentsProfessional } from '@/api/appointments/get-appointments-professional'
+import { getAppointments } from '@/api/appointments/get-appointments'
 import { getProfileCached, ProfileProps } from '@/lib/getProfileCached'
 
-import { AppointmentTableColumn, columns } from './columns'
-import { DataTable } from './data-table'
+import {
+  AppointmentTableColumn,
+  columns,
+} from '../components/data-table-filter/columns'
+import { DataTable } from '../components/data-table-filter/data-table'
 
-export function AppointmentsFiltered() {
+export function AppointmentsSupervisorFiltered() {
   const [searchParams] = useSearchParams()
 
   const page = z.coerce
@@ -42,7 +45,7 @@ export function AppointmentsFiltered() {
       role = newProfile.role as 'atendente' | 'profissional' | 'supervisora'
     }
 
-    const result = await getAppointmentsProfessional({ page, range, value })
+    const result = await getAppointments({ page, range, value })
 
     const dataTable: AppointmentTableColumn[] = result.appointments.map(
       (appointment) => {

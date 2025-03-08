@@ -5,8 +5,8 @@ import { AuthLayout } from './pages/_layout/auth'
 import { AppProfessionalLayout } from './pages/_layout/professionals'
 import { NotFound } from './pages/404'
 import { Appointments } from './pages/app/appointments/appointments'
-// import { ProfessionalAppointments } from './pages/app/appointments/professional/appointments'
-import { AppointmentsFiltered } from './pages/app/appointments/professional/data-table-filter/page'
+import { AppointmentsFiltered } from './pages/app/appointments/professional/page'
+import { AppointmentsSupervisorFiltered } from './pages/app/appointments/supervisor/page'
 import { Dashboard } from './pages/app/dashboard/dashboard'
 import { EditPatient } from './pages/app/patients/edit-patient'
 import { NewPatient } from './pages/app/patients/new-patient'
@@ -55,6 +55,10 @@ export const router = createBrowserRouter([
       {
         path: '/agenda',
         element: <Appointments />,
+      },
+      {
+        path: '/supervisora/agenda',
+        element: <AppointmentsSupervisorFiltered />,
       },
     ],
   },
