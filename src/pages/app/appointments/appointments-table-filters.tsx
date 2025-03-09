@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/select'
 
 import { FilterByMonth } from './components/FilterByMonth'
-import { NewAppointmentsDialog } from './new-appointments-dialog'
+import { NewAppointmentsWithProfessionalDialog } from './new-appointments-with-professional-dialog'
 
 export interface AppointmentsTableFiltersProps {
   onChangeRangeAndDay: (
@@ -74,7 +74,7 @@ export function AppointmentsTableFilters({
               Remover filtros
             </Button>
 
-            <NewAppointmentsDialog />
+            <NewAppointmentsWithProfessionalDialog />
           </div>
         </div>
 

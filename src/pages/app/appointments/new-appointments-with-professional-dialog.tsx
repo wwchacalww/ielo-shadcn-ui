@@ -49,7 +49,7 @@ import { cn } from '@/lib/utils'
 
 import { NewAppointmentForm } from './appointment-form'
 
-export function NewAppointmentsDialog() {
+export function NewAppointmentsWithProfessionalDialog() {
   const navigate = useNavigate()
   const token = localStorage.getItem('@ielo:token')
   if (!token) {
@@ -283,7 +283,7 @@ export function NewAppointmentsDialog() {
                                 currentValue === p.value ? null : p,
                               )
                               setProfessional(p)
-                              setOpenPatients(false)
+                              setOpenProfessionals(false)
                             }}
                           >
                             {p.label}

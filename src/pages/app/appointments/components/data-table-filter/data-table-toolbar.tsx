@@ -11,17 +11,20 @@ import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Input } from '@/components/ui/input'
 
-import { FilterByMonth } from '../FilterByMonth'
+import { NewAppointmentsWithProfessionalDialog } from '../../new-appointments-with-professional-dialog'
 import { NewAppointmentsDialog } from '../../professional/new-appointments-dialog'
+import { FilterByMonth } from '../FilterByMonth'
 import { statuses } from './data/data'
 import { DataTableFacetedFilter } from './data-table-faceted-filter'
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
+  role?: string
 }
 
 export function DataTableToolbar<TData>({
   table,
+  role,
 }: DataTableToolbarProps<TData>) {
   const [date, setDate] = useState<Date | undefined>(new Date())
   const [, setSearchParams] = useSearchParams()
@@ -94,7 +97,11 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
 
-        <NewAppointmentsDialog />
+        {role && role === 'profissional' ? (
+          <NewAppointmentsDialog />
+        ) : (
+          <NewAppointmentsWithProfessionalDialog />
+        )}
       </div>
       <Calendar
         mode="single"

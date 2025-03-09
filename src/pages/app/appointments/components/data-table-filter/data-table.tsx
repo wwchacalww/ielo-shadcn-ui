@@ -13,8 +13,11 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table'
+import { jwtDecode } from 'jwt-decode'
 import { useState } from 'react'
+import { Navigate } from 'react-router'
 
+import { PayLoad } from '@/api/account/sign-in'
 import {
   Table,
   TableBody,
@@ -54,10 +57,14 @@ export function DataTable<TData, TValue>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
-
+  const token = localStorage.getItem('@ielo:token')
+  if (!token) {
+    return <Navigate to="/sign-in" replace />
+  }
+  const { role } = jwtDecode<PayLoad>(token)
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} role={role} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
