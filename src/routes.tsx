@@ -4,8 +4,9 @@ import { AppLayout } from './pages/_layout/app'
 import { AuthLayout } from './pages/_layout/auth'
 import { AppProfessionalLayout } from './pages/_layout/professionals'
 import { NotFound } from './pages/404'
-import { Appointments } from './pages/app/appointments/appointments'
-import { ProfessionalAppointments } from './pages/app/appointments/professional/appointments'
+import { AppointmentsAtendentFiltered } from './pages/app/appointments/appointments-filtered'
+import { AppointmentsFiltered } from './pages/app/appointments/professional/page'
+import { AppointmentsSupervisorFiltered } from './pages/app/appointments/supervisor/page'
 import { Dashboard } from './pages/app/dashboard/dashboard'
 import { EditPatient } from './pages/app/patients/edit-patient'
 import { NewPatient } from './pages/app/patients/new-patient'
@@ -53,7 +54,11 @@ export const router = createBrowserRouter([
       },
       {
         path: '/agenda',
-        element: <Appointments />,
+        element: <AppointmentsAtendentFiltered />,
+      },
+      {
+        path: '/supervisora/agenda',
+        element: <AppointmentsSupervisorFiltered />,
       },
     ],
   },
@@ -64,7 +69,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/profissional/agenda',
-        element: <ProfessionalAppointments />,
+        element: <AppointmentsFiltered />,
       },
       {
         path: '/profissional/progress/:appointmentId',

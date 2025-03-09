@@ -1,5 +1,8 @@
+import { jwtDecode } from 'jwt-decode'
 import * as React from 'react'
+import { Navigate } from 'react-router'
 
+import { PayLoad } from '@/api/account/sign-in'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -26,6 +29,12 @@ const profissional: { title: string; href: string; description: string }[] = [
 ]
 
 export function NavMenu() {
+  const token = localStorage.getItem('@ielo:token')
+  if (!token) {
+    return <Navigate to="/sign-in" replace />
+  }
+  const { role } = jwtDecode<PayLoad>(token)
+
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -92,7 +101,7 @@ export function NavMenu() {
 
         <NavigationMenuItem>
           <NavigationMenuLink
-            href="/agenda"
+            href={role === 'atendente' ? '/agenda' : '/supervisora/agenda'}
             className={navigationMenuTriggerStyle()}
           >
             Agenda

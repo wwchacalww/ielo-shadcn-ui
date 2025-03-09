@@ -62,6 +62,7 @@ export function NewProgress() {
     handleSubmit,
     formState: { isSubmitting },
     setValue,
+    getValues,
   } = useForm<NewProgressForm>()
 
   if (!isLoading && result) {
@@ -87,8 +88,12 @@ export function NewProgress() {
       },
       { locale: 'pt-BR' },
     )
-    setValue('majorComplaint', result.progress.progressData.majorComplaint)
-    setValue('procedures', result.progress.progressData.procedures)
+    if (getValues('majorComplaint') === '') {
+      setValue('majorComplaint', result.progress.progressData.majorComplaint)
+    }
+    if (getValues('procedures') === '') {
+      setValue('procedures', result.progress.progressData.procedures)
+    }
   }
   async function handleNewProgress(data: NewProgressForm) {
     const body: NewProgressBody = {
