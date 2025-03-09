@@ -9,11 +9,11 @@ import { Button } from '@/components/ui/button'
 
 import { AppointmentStatus } from '../../appointment-status'
 import { CancelAppointmentDialog } from '../../apppoinment-cancel-dialog'
-import { EvaluateProgressDialog } from '../evaluate-progress-dialog'
-import { PrintProgress } from '../PrintProgress'
 import { ChangeStatusAppoiment } from '../../professional/change-status-appointment'
 import { ChangeStatusProgressDialog } from '../../professional/change-statuts-progress-dialog'
 import { ReSchedule } from '../../re-schecule-dialog'
+import { EvaluateProgressDialog } from '../evaluate-progress-dialog'
+import { PrintProgress } from '../PrintProgress'
 
 type AppointmentStatus =
   | 'agendado'

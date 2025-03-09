@@ -1,22 +1,18 @@
 import { useQuery } from '@tanstack/react-query'
 import { intlFormat } from 'date-fns'
-import { jwtDecode } from 'jwt-decode'
 import { Helmet } from 'react-helmet-async'
-import { Navigate, useSearchParams } from 'react-router'
+import { useSearchParams } from 'react-router'
 import { z } from 'zod'
 
-import { getProfile } from '@/api/account/get-profile'
-import { PayLoad } from '@/api/account/sign-in'
 import { getAppointments } from '@/api/appointments/get-appointments'
-import { getProfileCached, ProfileProps } from '@/lib/getProfileCached'
 
 import {
   AppointmentTableColumn,
   columns,
-} from '../components/data-table-filter/columns'
-import { DataTable } from '../components/data-table-filter/data-table'
+} from './components/data-table-filter/columns'
+import { DataTable } from './components/data-table-filter/data-table'
 
-export function AppointmentsSupervisorFiltered() {
+export function AppointmentsAtendentFiltered() {
   const [searchParams] = useSearchParams()
 
   const page = z.coerce
@@ -35,28 +31,7 @@ export function AppointmentsSupervisorFiltered() {
     queryFn: handleSearch,
   })
 
-  const token = localStorage.getItem('@ielo:token')
-  if (!token) {
-    return <Navigate to="/sign-in" replace />
-  }
-  const { role } = jwtDecode<PayLoad>(token)
-  if (role !== 'supervisora') {
-    localStorage.removeItem('@ielo:token')
-    return <Navigate to="/sign-in" replace />
-  }
-
   async function handleSearch() {
-    const profile = getProfileCached() as ProfileProps
-
-    let [profissional] = profile.Professional
-    let role = profile.role as 'atendente' | 'profissional' | 'supervisora'
-
-    if (!profile) {
-      const newProfile = (await getProfile()) as ProfileProps
-      profissional = newProfile.Professional[0]
-      role = newProfile.role as 'atendente' | 'profissional' | 'supervisora'
-    }
-
     const result = await getAppointments({ page, range, value })
 
     const dataTable: AppointmentTableColumn[] = result.appointments.map(
@@ -86,8 +61,8 @@ export function AppointmentsSupervisorFiltered() {
           patientName: appointment.patient.name,
           local: appointment.local,
           status: appointment.status,
-          professionalId: profissional.id,
-          role,
+          professionalId: '',
+          role: 'atendente',
           appoinmentProfessionalId: appointment.professionalId,
           progressId: appointment.progressId || null,
         }

@@ -4,7 +4,7 @@ import { AppLayout } from './pages/_layout/app'
 import { AuthLayout } from './pages/_layout/auth'
 import { AppProfessionalLayout } from './pages/_layout/professionals'
 import { NotFound } from './pages/404'
-import { Appointments } from './pages/app/appointments/appointments'
+import { AppointmentsAtendentFiltered } from './pages/app/appointments/appointments-filtered'
 import { AppointmentsFiltered } from './pages/app/appointments/professional/page'
 import { AppointmentsSupervisorFiltered } from './pages/app/appointments/supervisor/page'
 import { Dashboard } from './pages/app/dashboard/dashboard'
@@ -54,7 +54,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/agenda',
-        element: <Appointments />,
+        element: <AppointmentsAtendentFiltered />,
       },
       {
         path: '/supervisora/agenda',
