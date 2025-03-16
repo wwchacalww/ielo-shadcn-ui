@@ -43,6 +43,10 @@ Projeto criado para o intuito de estudar o Shadcn/UI com react.
    - [X] Filtrar por data
  - [X] Página: Dashaboard
    - [X] Cards com informações sobre agenda e pacientes
+     - [X] Número de atendimentos do mês
+     - [ ] Número de atendimentos por convênio do mês
+     - [ ] Número de atendimentos por convênio do social
+     - [ ] Número de atendimentos por convênio do particular
    - [X] Gráfico de agendamentos
  - [X] Página: 404 não encontrada
  - [X] Página: Progress
