@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 export function MonthAppointmentCard() {
   const { data: monthlyAppointmentsCount, isLoading } = useQuery({
     queryKey: ['monthly-appointments-count'],
-    queryFn: getMonthlyAppointmentsCount,
+    queryFn: () => getMonthlyAppointmentsCount({ query: 'all' }),
   })
   return (
     <>
