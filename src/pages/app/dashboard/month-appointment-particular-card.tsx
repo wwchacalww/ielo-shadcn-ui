@@ -7,7 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 export function MonthAppointmentParticularCard() {
   const { data: monthlyAppointmentsParticularCount, isLoading } = useQuery({
-    queryKey: ['monthly-appointments-social-count'],
+    queryKey: ['monthly-appointments-particular-count'],
     queryFn: () => getMonthlyAppointmentsCount({ query: 'private' }),
   })
   return (
